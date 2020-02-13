@@ -9,7 +9,11 @@ import java.net.URL;
 import java.net.URLConnection;
 
 public class Look2Scraper implements Runnable {
+
     private String sensorName;
+
+
+
     private String pm25Value;
     private String pm25Percentage;
     private String scannerOutputLine;
@@ -129,4 +133,15 @@ public class Look2Scraper implements Runnable {
         return pm25Percentage;
     }
 
+    public String getSensorName() {
+        return sensorName;
+    }
+
+    public String getPm25ValueString() {
+        return pm25Value;
+    }
+
+//    public void setSensorName(String sensorName) {
+//        this.sensorName = sensorName;
+//    }
 }
