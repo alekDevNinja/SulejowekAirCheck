@@ -4,36 +4,54 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 
 import com.github.alekdevninja.sulejowekaircheck.Looko2Tools.Look2Scraper;
+import com.github.alekdevninja.sulejowekaircheck.Looko2Tools.RecyclerViewAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
+    RecyclerViewAdapter adapter;
     Look2Scraper looko2Sul1;
     Look2Scraper looko2Reymonta;
     Look2Scraper looko2Pogodna7;
     Look2Scraper looko2SikorskiegoWolaGrzybowska;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        setContentView(R.layout.activity_main);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
 
-////// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // //
-//        Chronometer mChronometer = (Chronometer) findViewById(R.id.chronometer);
-//        mChronometer.setBase(SystemClock.elapsedRealtime());
-//        mChronometer.start();
-////// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // //
+        // data to populate the RecyclerView with
+        ArrayList<String> sensorList = new ArrayList<>();
+        sensorList.add("sensor #1");
+        sensorList.add("sensor #2");
+        sensorList.add("sensor #3");
+        sensorList.add("sensor #4");
+        sensorList.add("sensor #5");
+
+        // set up the RecyclerView
+        RecyclerView recyclerView = findViewById(R.id.rvSensors);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new RecyclerViewAdapter(this, sensorList);
+//        adapter.setClickListener((RecyclerViewAdapter.ItemClickListener) this);
+        recyclerView.setAdapter(adapter);
+
 
         fetchAirData("Sul1", "http://looko2.com/tracker.php?lan=&search=5CCF7F1A546F");
 
@@ -49,8 +67,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 //                ////broken
-            updateSensorInfo(looko2Sul1);
-
+                updateSensorInfo(looko2Sul1);
 
 
 ////                works!!
@@ -62,17 +79,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
-    private void fetchAirData(final String sensorName, final String subUrl) {
-        AsyncTask.execute(new Runnable() {
-            @Override
-            public void run() {
-                //TODO your background code
-                looko2Sul1 = new Look2Scraper(sensorName, subUrl);
-            }
-        });
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -97,6 +103,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    private void fetchAirData(final String sensorName, final String subUrl) {
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                looko2Sul1 = new Look2Scraper(sensorName, subUrl);
+            }
+        });
+    }
 
     void updateSensorInfo(Look2Scraper look2ScraperObj) {
         updateTextView(look2ScraperObj.getSensorName(), R.id.textView_sensorName);
@@ -115,9 +129,5 @@ public class MainActivity extends AppCompatActivity {
         TextView textView = (TextView) findViewById(textViewId);
         textView.setText(dataSource);
     }
-
-//    private void print(String text) {
-//        Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
-//    }
 
 }
