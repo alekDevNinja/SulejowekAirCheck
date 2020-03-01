@@ -9,11 +9,10 @@ import java.net.URL;
 import java.net.URLConnection;
 
 public class Look2Scraper implements Runnable {
+    //@ToDo
+    //check getters, update setters in the code
 
     private String sensorName;
-
-
-
     private String pm25Value;
     private String pm25Percentage;
     private String scannerOutputLine;
@@ -37,6 +36,8 @@ public class Look2Scraper implements Runnable {
     public Look2Scraper(String sensorName, String subPageLink) {
         this.sensorName = sensorName;
         this.subPageLink = subPageLink;
+        pm25Value = "no data";
+        pm25Percentage = "no data";
         run();
     }
 
@@ -129,12 +130,20 @@ public class Look2Scraper implements Runnable {
                 '}';
     }
 
+    public String getSensorName() {
+        return sensorName;
+    }
+
     public String getPm25Percentage() {
         return pm25Percentage;
     }
 
-    public String getSensorName() {
-        return sensorName;
+    public void setPm25Percentage(String pm25Percentage) {
+        this.pm25Percentage = pm25Percentage;
+    }
+
+    public void setPm25Value(String pm25Value) {
+        this.pm25Value = pm25Value;
     }
 
     public String getPm25ValueString() {

@@ -1,4 +1,4 @@
-package com.github.alekdevninja.sulejowekaircheck.Looko2Tools;
+package com.github.alekdevninja.sulejowekaircheck;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,20 +8,31 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.github.alekdevninja.sulejowekaircheck.R;
+import com.github.alekdevninja.sulejowekaircheck.Looko2Tools.Look2Scraper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
+//    private List<String> mData;
     private List<String> mData;
+
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
 
+    String sensorName;
+    String pm25ValueString;
+    String pm25Percentage;
+//    updateTextView(look2ScraperObj.getSensorName(), R.id.textView_sensorName);
+//    updateTextView(look2ScraperObj.getPm25ValueString(), R.id.textView_pm25value);
+//    updateTextView(look2ScraperObj.getPm25Percentage(), R.id.textView_percentageValue);
+
     // data is passed into the constructor
-    public RecyclerViewAdapter(Context context, List<String> data) {
+    public RecyclerViewAdapter(Context context, ArrayList<Look2Scraper> data) {
         this.mInflater = LayoutInflater.from(context);
-        this.mData = data;
+
+//        this.mData = data;
     }
 
     // inflates the row layout from xml when needed
