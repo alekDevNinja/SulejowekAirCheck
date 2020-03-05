@@ -23,14 +23,10 @@ public class MainActivity extends AppCompatActivity {
     RecyclerViewAdapter adapter;
     ArrayList<Look2Scraper> sensorList;
 
-    Look2Scraper looko2Sul1;
-    Look2Scraper looko2Reymonta;
-    Look2Scraper looko2Pogodna7;
-    Look2Scraper looko2SikorskiegoWolaGrzybowska;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         //setup - main layout view + toolbar + support action bar);
         setupMainView();
 
@@ -42,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
 
         // button on the bottom // UPDATING UI
         buttonOnTheBottomSetup();
-
     }
 
     @Override
@@ -101,34 +96,10 @@ public class MainActivity extends AppCompatActivity {
                 displaySensorLog(3);
                 displaySensorLog(4);
 
-//                System.out.println("\n-------------------------------------------------------------");
-//                System.out.println("sensor name: " + sensorList.get(0).getSensorName());
-//                System.out.println("PM2.5: " + sensorList.get(0).getPM2Value());
-////                sensorList.get(1).updateSensorData("Sul1", "http://looko2.com/tracker.php?lan=&search=5CCF7F1A546F");
-//                System.out.println("-------------------------------------------------------------");
-//                System.out.println("sensor name: " + sensorList.get(1).getSensorName());
-//                System.out.println("PM2.5: " + sensorList.get(1).getPM2Value());
-////                sensorList.get(1).updateSensorData("Sul1", "http://looko2.com/tracker.php?lan=&search=5CCF7F1A546F");
-//                System.out.println("-------------------------------------------------------------");
-//                System.out.println("sensor name: " + sensorList.get(2).getSensorName());
-//                System.out.println("PM2.5: " + sensorList.get(2).getPM2Value());
-////                sensorList.get(1).updateSensorData("Sul1", "http://looko2.com/tracker.php?lan=&search=5CCF7F1A546F");
-//                System.out.println("-------------------------------------------------------------");
-
-
-//                Log.println(
-//                        Log.INFO,
-//                        "test tag",
-//                        "test msg"
-//                );
-
 //                updateTextView(looko2Sul1.getSensorName(), R.id.textView_sensorName);
-//                @ToDo broke something here
 //                updateTextView(sensorList.get(1).getSensorName(), 1);
             }
         });
-
-
     }
 
     private void displaySensorLog(int i) {
@@ -156,15 +127,6 @@ public class MainActivity extends AppCompatActivity {
 //        adapter.setClickListener((RecyclerViewAdapter.ItemClickListener) this);
         recyclerView.setAdapter(adapter);
     }
-
-//    private void fetchAirData(final String sensorName, final String subUrl) {
-//        AsyncTask.execute(new Runnable() {
-//            @Override
-//            public void run() {
-//                looko2Sul1 = new Look2Scraper(sensorName, subUrl);
-//            }
-//        });
-//    }
 
     void updateSensorInfo(Look2Scraper look2ScraperObj) {
         updateTextView(look2ScraperObj.getSensorName(), R.id.textView_sensorName);

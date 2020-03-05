@@ -18,7 +18,7 @@ public class Look2Scraper implements Runnable {
         return sensorId;
     }
 
-    private int sensorId = 1;
+    private int sensorId;
     private String sensorName;
     private String pm25Value;
     private String pm25Percentage;
@@ -37,21 +37,16 @@ public class Look2Scraper implements Runnable {
      */
 
     public Look2Scraper(String sensorName, String subPageLink) {
-        sensorsCreated++; // counting created objects
-        sensorId = sensorsCreated-1;
+        sensorsCreated++; // counting all created instances
+        sensorId = sensorsCreated - 1; //
         Log.i("Look2Scraper", "Sensor object: " + sensorName + " created");
         wasUpdated = false;
         this.sensorName = sensorName;
         this.subPageLink = subPageLink;
-//        run();
-
     }
 
     @Override
     public void run() {
-//        pm25Value = getPM2Value();
-//        this.toString();
-//        updateSensorData(sensorName, subPageLink);
     }
 
     public void updateSensorData() {
@@ -59,19 +54,10 @@ public class Look2Scraper implements Runnable {
             @Override
             public void run() {
                 pm25Value = extractPM2Value();
-                if (! pm25Value.equals("offline")) wasUpdated = true;
+                if (!pm25Value.equals("offline")) wasUpdated = true;
                 Log.i("Look2Scraper", sensorName + " #" + sensorsCreated + " was updated");
-
-//                Handler h = new Handler();
-//                try {
-//
-//                    h.postDelayed(this, 1000);
-//                }catch (android.os.NetworkOnMainThreadException nex){
-//                    System.out.println("??????????????????");
-//                }
             }
         });
-
     }
 
     public String extractPM2Value() {
@@ -96,7 +82,6 @@ public class Look2Scraper implements Runnable {
                     wasUpdated = true;
                 }
             }
-
         } catch (MalformedURLException e) {
             e.printStackTrace();
             Log.e("Look2Scraper", "error with the URL");
@@ -108,12 +93,10 @@ public class Look2Scraper implements Runnable {
         Log.i("Look2Scraper",
                 getSensorName() + " id#" + getSensorId() +
                         " scraped output: " + scrapedOutput);
-
         return scrapedOutput;
     }
 
     //scraping the PM2.5 value from the subPage
-
     String valueExtractor(String scannerOutputLine) {
         this.scannerOutputLine = scannerOutputLine;
         String extractorRawOutput = "something went wrong (getPM2Value() method)";
@@ -128,6 +111,7 @@ public class Look2Scraper implements Runnable {
         extractorRawOutput = pm25Value;
         return extractorRawOutput;
     }
+
     private String makeScrapedDataReadable(String pm25Value) {
         String outputString = "something went wrong in the \"makeScrapedDataReadable()\"";
 
@@ -155,14 +139,8 @@ public class Look2Scraper implements Runnable {
     public String toString() {
         if (pm25Value.equals("offline")) {
             Log.i("Look2Scraper", sensorName + "\t" + pm25Value);
-//            System.out.println(
-//                    sensorName + ":\t" + pm25Value
-//            );
         } else {
             Log.i("Look2Scraper", sensorName + ":\t" + pm25Value + " PM 2.5 | " + pm25Percentage + "% of healthy");
-//            System.out.println(
-//                    sensorName + ":\t" + pm25Value + " PM 2.5 | " + pm25Percentage + "% of healthy"
-//            );
         }
         return "Look2Scraper{" +
                 "pm25Value='" + pm25Value + '\'' +
@@ -185,14 +163,7 @@ public class Look2Scraper implements Runnable {
         return pm25Value;
     }
 
-    private static void addToSensorCounter() {
-        Look2Scraper.sensorsCreated = sensorsCreated++;
-    }
-
     public String getPm25Value() {
         return pm25Value;
     }
-//    public void setSensorName(String sensorName) {
-//        this.sensorName = sensorName;
-//    }
 }
