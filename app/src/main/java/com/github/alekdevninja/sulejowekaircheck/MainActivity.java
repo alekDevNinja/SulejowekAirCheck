@@ -1,21 +1,20 @@
 package com.github.alekdevninja.sulejowekaircheck;
 
 import android.os.Bundle;
-
-import com.github.alekdevninja.sulejowekaircheck.Looko2Tools.Look2Scraper;
-import com.github.alekdevninja.sulejowekaircheck.Looko2Tools.RecyclerViewAdapter;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
-import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.TextView;
+import com.github.alekdevninja.sulejowekaircheck.Looko2Tools.Look2Scraper;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 
@@ -80,8 +79,7 @@ public class MainActivity extends AppCompatActivity {
 ////                updateTextView(looko2Sul1.getSensorName(), R.id.textView_sensorName);
 //
 ////              Snackbar.make(view, "Info updated", Snackbar.LENGTH_LONG)
-//                Snackbar.make(view, "Info updated", Snackbar.LENGTH_SHORT)
-//                        .setAction("Action", null).show();
+
 
                 sensorList.get(0).updateSensorData();
                 sensorList.get(1).updateSensorData();
@@ -96,8 +94,10 @@ public class MainActivity extends AppCompatActivity {
                 displaySensorLog(3);
                 displaySensorLog(4);
 
-//                updateTextView(looko2Sul1.getSensorName(), R.id.textView_sensorName);
-//                updateTextView(sensorList.get(1).getSensorName(), 1);
+                adapter.notifyDataSetChanged();
+
+                Snackbar.make(view, "Info updated", Snackbar.LENGTH_SHORT)
+                        .setAction("Action", null).show();
             }
         });
     }

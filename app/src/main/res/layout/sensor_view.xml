@@ -26,7 +26,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-
                     android:text="sensor" />
 
                 <TextView
@@ -48,12 +47,12 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
+
                     <TextView
                         android:id="@+id/textView_pm25value"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="no data " />
-
                     <TextView
                         android:id="@+id/textView_pm25Name1"
                         android:layout_width="wrap_content"

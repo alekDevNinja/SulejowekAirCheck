@@ -18,13 +18,12 @@ public class Look2Scraper implements Runnable {
         return sensorId;
     }
 
-    private int sensorId;
-    private String sensorName;
-    private String pm25Value;
-    private String pm25Percentage;
-    private String scannerOutputLine;
-    private String subPageLink;
-
+    private int sensorId; // numeric Id of sensor in the local sensors list
+    private String sensorName; // sensor name given on instance creation
+    private String pm25Value; // scraped & formatted PM2.5 value
+    private String pm25Percentage; // scraped & formatted % of healthy norm value
+    private String scannerOutputLine; // working area for scraping
+    private String subPageLink; // link for the designated sensor web page
     private boolean wasUpdated; // was the object updated with scraped data since its creation
 
     /**
@@ -60,7 +59,7 @@ public class Look2Scraper implements Runnable {
         });
     }
 
-    public String extractPM2Value() {
+    private String extractPM2Value() {
         String scrapedOutput = "no output scraped";
         try {
             // Make a URL to the web page
@@ -97,7 +96,7 @@ public class Look2Scraper implements Runnable {
     }
 
     //scraping the PM2.5 value from the subPage
-    String valueExtractor(String scannerOutputLine) {
+    private String valueExtractor(String scannerOutputLine) {
         this.scannerOutputLine = scannerOutputLine;
         String extractorRawOutput = "something went wrong (getPM2Value() method)";
 
@@ -147,16 +146,17 @@ public class Look2Scraper implements Runnable {
                 '}';
     }
 
+    public boolean isWasUpdated() {
+        return wasUpdated;
+    }
+
+
     public String getPm25Percentage() {
         return pm25Percentage;
     }
 
     public String getSensorName() {
         return sensorName;
-    }
-
-    public boolean isWasUpdated() {
-        return wasUpdated;
     }
 
     public String getPm25ValueString() {
