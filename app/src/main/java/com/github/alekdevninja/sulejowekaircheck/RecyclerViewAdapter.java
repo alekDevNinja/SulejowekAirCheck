@@ -36,11 +36,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void onBindViewHolder(ViewHolder holder, int position) {
         Look2Scraper sensor = mData.get(position);
         holder.sensorName.setText(sensor.getSensorName());
-        //holder. @ToDo !!!!!!!!! here add more views to update!!!!
         holder.pm25Value.setText(sensor.getPm25Value());
         holder.percentOfNorm.setText(sensor.getPm25Percentage());
-        //
-
     }
 
     // stores and recycles views as they are scrolled off screen

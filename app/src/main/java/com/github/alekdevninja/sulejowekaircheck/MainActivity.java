@@ -21,22 +21,105 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     RecyclerViewAdapter adapter;
     ArrayList<Look2Scraper> sensorList;
+    MainViewController mainViewController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         //setup - main layout view + toolbar + support action bar);
-        setupMainView();
+        setupMainView(mainViewController);
 
-        // data to populate the RecyclerView with
+        //data to populate the RecyclerView with
         boottrapingSensorList();
 
-        // set up the RecyclerView
+        //obtaining data from the web for the initial data set
+        scrapDataForAllSensors();
+
+        //set up the RecyclerView
         recyclerViewSetup(sensorList);
 
         // button on the bottom // UPDATING UI
         buttonOnTheBottomSetup();
+
+        //checking if there is a need to update the sensors view
+//        checkIfUpdateIsNeeded();
+    }
+
+    private void buttonOnTheBottomSetup() {
+        FloatingActionButton floatingActionButton = findViewById(R.id.fab);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                updateScrapedData();
+
+                Log.i("MainActivity", "---------------------------------------");
+                displaySensorLog(0);
+                displaySensorLog(1);
+                displaySensorLog(2);
+                displaySensorLog(3);
+                displaySensorLog(4);
+
+                adapter.notifyDataSetChanged();
+
+                Snackbar.make(view, "Info updated", Snackbar.LENGTH_SHORT)
+                        .setAction("Action", null).show();
+
+//                checkIfUpdateIsNeeded();
+            }
+        });
+    }
+
+    private void scrapDataForAllSensors() {
+        for (int i = sensorList.size(); i > 0; i--) {
+            sensorList.get(0).updateSensorData();
+            sensorList.get(1).updateSensorData();
+            sensorList.get(2).updateSensorData();
+            sensorList.get(3).updateSensorData();
+            sensorList.get(4).updateSensorData();
+        }
+    }
+
+    private void checkIfUpdateIsNeeded() {
+        sensorList.get(0).updateSensorData();
+        sensorList.get(1).updateSensorData();
+        sensorList.get(2).updateSensorData();
+        sensorList.get(3).updateSensorData();
+        sensorList.get(4).updateSensorData();
+
+//        (new Handler()).postDelayed(this::checkIfUpdateIsNeeded, 5000);
+        System.out.println("test");
+
+//        AsyncTask.execute(new Runnable() {
+//            @Override
+//            public void run() {
+//                int counter = 0;
+//                while (!wasDataEverUpdated) {
+//                    for (int i = 0; i < sensorList.size(); i++) {
+//                        counter++;
+//                        Log.i("MainActivity", "counter++: " + counter);
+//                        if (sensorList.get(i).isWasUpdated()) {
+//                            Log.i("MainActivity", "checkIfUpdateIsNeeded used | counter: " + counter);
+//                            buttonOnTheBottomSetup();
+//
+//                            wasDataEverUpdated = true;
+//
+//                            break;
+//                        }
+//                    }
+//
+////                    sensorList.get(0).updateSensorData();
+////                    sensorList.get(1).updateSensorData();
+////                    sensorList.get(2).updateSensorData();
+////                    sensorList.get(3).updateSensorData();
+////                    sensorList.get(4).updateSensorData();
+//
+//                }
+//                adapter.notifyDataSetChanged();
+//            }
+//        });
+
+
     }
 
     @Override
@@ -61,46 +144,13 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void setupMainView() {
+    private void setupMainView(MainViewController viewController) {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        viewController = new MainViewController();
     }
 
-    private void buttonOnTheBottomSetup() {
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-////                ////broken
-//                updateSensorInfo(looko2Sul1);
-//
-//////                works!!
-////                updateTextView(looko2Sul1.getSensorName(), R.id.textView_sensorName);
-//
-////              Snackbar.make(view, "Info updated", Snackbar.LENGTH_LONG)
-
-
-                sensorList.get(0).updateSensorData();
-                sensorList.get(1).updateSensorData();
-                sensorList.get(2).updateSensorData();
-                sensorList.get(3).updateSensorData();
-                sensorList.get(4).updateSensorData();
-
-                Log.i("MainActivity", "---------------------------------------");
-                displaySensorLog(0);
-                displaySensorLog(1);
-                displaySensorLog(2);
-                displaySensorLog(3);
-                displaySensorLog(4);
-
-                adapter.notifyDataSetChanged();
-
-                Snackbar.make(view, "Info updated", Snackbar.LENGTH_SHORT)
-                        .setAction("Action", null).show();
-            }
-        });
-    }
 
     private void displaySensorLog(int i) {
         Log.i("MainActivity", "---------------------------------------");
@@ -113,11 +163,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void boottrapingSensorList() {
         sensorList = new ArrayList<>();
-        sensorList.add(new Look2Scraper("Sul1", "http://looko2.com/tracker.php?lan=&search=5CCF7F1A546F"));
-        sensorList.add(new Look2Scraper("Reymonta", "http://looko2.com/tracker.php?lan=&search=2C3AE833FFD3"));
-        sensorList.add(new Look2Scraper("Pogodna7", "http://looko2.com/tracker.php?lan=&search=6001944BCDEB"));
-        sensorList.add(new Look2Scraper("UMS1", "http://looko2.com/tracker.php?lan=&search=2C3AE834F051"));
-        sensorList.add(new Look2Scraper("Sikorskiego (Wola Grz.)", "http://looko2.com/tracker.php?lan=&search=807D3A1F6F4F"));
+        sensorList.add(new Look2Scraper("1", "http://looko2.com/tracker.php?lan=&search=5CCF7F1A546F")); //Sul1
+        sensorList.add(new Look2Scraper("2", "http://looko2.com/tracker.php?lan=&search=2C3AE833FFD3")); //Reymonta
+        sensorList.add(new Look2Scraper("3", "http://looko2.com/tracker.php?lan=&search=6001944BCDEB")); //Pogodna7
+        sensorList.add(new Look2Scraper("4", "http://looko2.com/tracker.php?lan=&search=2C3AE834F051")); //UMS1
+        sensorList.add(new Look2Scraper("5", "http://looko2.com/tracker.php?lan=&search=807D3A1F6F4F")); //Wola Grzybowska
     }
 
     private void recyclerViewSetup(ArrayList<Look2Scraper> sensorList) {
