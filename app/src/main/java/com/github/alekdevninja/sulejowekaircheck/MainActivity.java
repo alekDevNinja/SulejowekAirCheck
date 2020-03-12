@@ -71,12 +71,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void scrapDataForAllSensors() {
-        for (int i = sensorList.size(); i > 0; i--) {
-            sensorList.get(0).updateSensorData();
-            sensorList.get(1).updateSensorData();
-            sensorList.get(2).updateSensorData();
-            sensorList.get(3).updateSensorData();
-            sensorList.get(4).updateSensorData();
+        for (int i = 0; i < sensorList.size() ; i++) {
+            sensorList.get(i).updateSensorData();
         }
     }
 
