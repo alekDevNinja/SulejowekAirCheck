@@ -17,11 +17,16 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
 
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+
+            android:value="MY_KEY_HERE" />
+
         <activity
-            android:label="Powietrze w Sulejówku"
             android:name=".MainActivity"
+            android:label="Powietrze w Sulejówku"
             android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter >
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
