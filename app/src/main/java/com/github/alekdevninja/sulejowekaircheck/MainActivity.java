@@ -1,17 +1,13 @@
 package com.github.alekdevninja.sulejowekaircheck;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,10 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.alekdevninja.sulejowekaircheck.Looko2Tools.Look2Scraper;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.GoogleMapOptions;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -34,28 +27,15 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.maps.android.ui.IconGenerator;
 
 import java.util.ArrayList;
-
-import android.graphics.Color;
-import android.text.SpannableStringBuilder;
-import android.text.Spanned;
-import android.text.style.StyleSpan;
-
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.maps.android.ui.IconGenerator;
-
-import static android.graphics.Typeface.BOLD;
-import static android.graphics.Typeface.ITALIC;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
     RecyclerViewAdapter adapter;
     ArrayList<Look2Scraper> sensorList;
     MainViewController mainViewController;
+    SupportMapFragment mapFragment;
+    boolean updatedAfterStart = false;
 
     private WebView webView;
 
@@ -76,7 +56,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         //obtaining data from the web for the initial data set
         scrapDataForAllSensors();
 
-
         //set up the RecyclerView
         recyclerViewSetup(sensorList);
 
@@ -90,18 +69,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         //open mini map view
 
 //        this works ok
-        SupportMapFragment mapFragment =
-                (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-//        MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
-//        mapFragment.getMapAsync(this);
 
     }
 
-    /*
-    this works-ish
-     */
     @Override
     public void onMapReady(GoogleMap map) {
 
@@ -113,30 +86,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 //                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_1))
 ////                      .icon(BitmapDescriptorFactory.fromResource(iconGen.makeIcon("Text")))
 //        );
-
-
-//        //add markers on map
-//        map.addMarker(new MarkerOptions()
-//                        .position(new LatLng(52.249172, 21.280839))
-//                        .title("1")
-////                .snippet("1") //comment below marker name
-//                        .icon(BitmapDescriptorFactory.fromResource(android.R.drawable.arrow_down_float)) //R.drawable.common_full_open_on_phone for local res
-//        ).showInfoWindow(); //showing title on map
-//
-//        map.addMarker(new MarkerOptions()
-//                        .position(new LatLng(52.248292, 21.276708))
-//                        .title("2")
-////                .snippet("2") //comment below marker name
-//                        .icon(BitmapDescriptorFactory.fromResource(android.R.drawable.arrow_down_float))
-//        ).showInfoWindow(); //showing title on map
-///////////////////////////////////
-//
-//        IconGenerator iconGen = new IconGenerator(this);
-//        MarkerOptions markerOptions = new MarkerOptions().
-//                icon(BitmapDescriptorFactory.fromBitmap(iconGen.makeIcon("Text"))).
-//                position(new LatLng(52.253982, 21.295988)).
-//                anchor(iconGen.getAnchorU(), iconGen.getAnchorV());
-
 
         //setting map type
         map.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
@@ -162,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .title("Reymonta")
                 .snippet("... PM2.5")
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_1))
-                .anchor(anchorv0,anchorv1)
+                .anchor(anchorv0, anchorv1)
         ).showInfoWindow();
 
 
@@ -179,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .title("Sul1")
                 .snippet("... PM2.5")
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_2))
-                .anchor(anchorv0,anchorv1)
+                .anchor(anchorv0, anchorv1)
         );
 
 
@@ -196,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .title("Pogodna")
                 .snippet("... PM2.5")
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_3))
-                .anchor(anchorv0,anchorv1)
+                .anchor(anchorv0, anchorv1)
         );
 
         // UMS_1
@@ -213,7 +162,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .title("UMS_1")
                 .snippet("... PM2.5")
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_4))
-                .anchor(anchorv0,anchorv1)
+                .anchor(anchorv0, anchorv1)
         );
 
 
@@ -230,40 +179,39 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .title("Wola Grzybowska")
                 .snippet("... PM2.5")
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_5))
-                .anchor(anchorv0,anchorv1)
+                .anchor(anchorv0, anchorv1)
         );
 
     }
-
-
-//    @Override
-//    public void onMapReady(GoogleMap map) {
-//
-//        map.addMarker(new MarkerOptions()
-//                .position(new LatLng(52.248292, 21.276708))
-//                .title("Marker"));
-//    }
 
     private void buttonOnTheBottomSetup() {
         FloatingActionButton floatingActionButton = findViewById(R.id.fab);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                updateScrapedData();
+                if (updatedAfterStart) {
+                    updatedAfterStart = true;
+                    displayAllSensorsLogs();
+                    adapter.notifyDataSetChanged();
+                } else {
+                    displayAllSensorsLogs();
+                    scrapDataForAllSensors();
 
-                Log.i("MainActivity", "---------------------------------------");
-                displaySensorLog(0);
-                displaySensorLog(1);
-                displaySensorLog(2);
-                displaySensorLog(3);
-                displaySensorLog(4);
+                    final Handler handler = new Handler();
+                    final Runnable r = new Runnable()
+                    {
+                        public void run()
+                        {
+                            adapter.notifyDataSetChanged(); // need to set a delay here
+                            Log.i("MainActivity", "sensor data updated");
+                        }
+                    };
+                    handler.postDelayed(r, 2500);
 
-                adapter.notifyDataSetChanged();
+                }
 
                 Snackbar.make(view, "Info updated", Snackbar.LENGTH_SHORT)
                         .setAction("Action", null).show();
-
-//                checkIfUpdateIsNeeded();
             }
         });
     }
@@ -345,7 +293,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         viewController = new MainViewController();
     }
 
-
     private void displaySensorLog(int i) {
         Log.i("MainActivity", "---------------------------------------");
         Log.i("MainActivity", "sensors preview:");
@@ -353,6 +300,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         Log.i("MainActivity", "PM2.5 = " + sensorList.get(i).getPm25Value());
         Log.i("MainActivity", sensorList.get(i).getPm25Percentage() + "% of norm");
         Log.i("MainActivity", "was updated yet: " + sensorList.get(i).isWasUpdated());
+    }
+
+    private void displayAllSensorsLogs() {
+        Log.i("MainActivity", "---------------------------------------");
+        for (int i = 0; i < sensorList.size(); i++) {
+            displaySensorLog(i);
+        }
     }
 
     private void boottrapingSensorList() {
