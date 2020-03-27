@@ -3,6 +3,8 @@ package com.github.alekdevninja.sulejowekaircheck.Looko2Tools;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,6 +27,8 @@ public class Look2Scraper implements Runnable {
     private String scannerOutputLine; // working area for scraping
     private String subPageLink; // link for the designated sensor web page
     private boolean wasUpdated; // was the object updated with scraped data since its creation
+    private LatLng sensorCoordinates;
+
 
     /**
      * 1. input the link on the constructor
@@ -35,13 +39,14 @@ public class Look2Scraper implements Runnable {
      * 4.1 get the % value while scanning for PM2.5
      */
 
-    public Look2Scraper(String sensorName, String subPageLink) {
+    public Look2Scraper(String sensorName, String subPageLink, double locationLatitude, double locationLongitude) {
         sensorsCreated++; // counting all created instances
-        sensorId = sensorsCreated - 1; //
+        sensorId = sensorsCreated--;
         Log.i("Look2Scraper", "Sensor object: " + sensorName + " created");
         wasUpdated = false;
         this.sensorName = sensorName;
         this.subPageLink = subPageLink;
+        sensorCoordinates = setSensorCoordinates(locationLatitude, locationLongitude);
     }
 
     @Override
@@ -166,4 +171,13 @@ public class Look2Scraper implements Runnable {
     public String getPm25Value() {
         return pm25Value;
     }
+
+    public LatLng getSensorCoordinates() {
+        return sensorCoordinates;
+    }
+
+    public LatLng setSensorCoordinates(double locationLatitude, double locationLongitude) {
+        return new LatLng(locationLatitude, locationLongitude);
+    }
+
 }
