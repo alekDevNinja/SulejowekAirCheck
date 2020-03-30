@@ -1,73 +1,78 @@
 package com.github.alekdevninja.sulejowekaircheck;
 
+import android.content.Context;
 import android.graphics.Color;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.github.alekdevninja.sulejowekaircheck.Looko2Tools.Look2Scraper;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 
 public class MapService extends AppCompatActivity implements OnMapReadyCallback {
-    SupportMapFragment mapFragment;
-    ArrayList<Look2Scraper> sensorList;
+    private SupportMapFragment mapFragment;
+    private ArrayList<Look2Scraper> sensorList;
+    private MapMarker sensorsMapRepresentation;
+
+    private Context context;
+    private MapView mapView;
+
+    private GoogleMap googleMap;
+    CircleOptions testCircle;
 
     public MapService(int mapRiD, ArrayList<Look2Scraper> sensorList) {
+        this.context = MainActivity.getMainActivityContext(); //getting the MainActivity context
+        this.sensorList = sensorList;
+
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(mapRiD);
         mapFragment.getMapAsync(this);
-        this.sensorList = sensorList;
+
+
     }
+
+//    private MapMarker generateMapMarkers() {
+//        MapMarker output = new MapMarker(sensorList);
+//
+//        return output;
+//    }
 
     @Override
     public void onMapReady(GoogleMap map) {
         //setting map type
         map.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
 
-        //Adding sensor range
-        int radiusDiameter = 400;
-        float strokeWidth = 5;
-//        int strokeColor = Color.parseColor("#ff0000"); //red
-        int strokeColor = Color.parseColor("#6d6d6d"); //dark gray
-//        int fillColor = 0x33FF0000; // .fillColor(Color.argb(20, 50, 0, 255)) //RED
-        int fillColor = 0x33373737; // .fillColor(Color.argb(20, 50, 0, 255)) //this works for tweaking //gray
-        float anchorV0 = 0.5f;
-        float anchorV1 = 0.5f;
+        MapMarker mapMarker = new MapMarker(sensorList, map);
 
+        //only for testing
+        //markers setup parameters
+        int radiusDiameter = 400; // in meters
+        float strokeWidth = 5; // only important  for visuals
+        int strokeColor = Color.parseColor("#6d6d6d"); //dark gray | red -> ff0000
+        int fillColor = 0x336d6d6d; // .fillColor(Color.argb(20, 50, 0, 255)) //this works for tweaking //gray
+        float anchor = 0.5f; // amount of offset for the icon to be in the middle of the marker
 
-        for (int i = 0; i < sensorList.size(); i++) {
-            //Reymonta
-            Circle circle = map.addCircle(new CircleOptions()
-                    .center(sensorList.get(i).getSensorCoordinates())
-                    .radius(radiusDiameter)
-                    .strokeWidth(strokeWidth)
-                    .strokeColor(strokeColor)
-                    .fillColor(fillColor)
-            );
+        testCircle = new CircleOptions()
+                .center(sensorList.get(5).getSensorCoordinates())
+                .radius(radiusDiameter)
+                .strokeWidth(strokeWidth)
+                .strokeColor(strokeColor)
+                .fillColor(fillColor);
 
-            int id = getResources().getIdentifier("com.github.alekdevninja.sulejowekaircheck:drawable/ic_" + (i + 1),
-                    "Drawable",
-                    "com.github.alekdevninja.sulejowekaircheck");
+        map.addCircle(testCircle);
 
-            map.addMarker(new MarkerOptions()
-                            .position(sensorList.get(i).getSensorCoordinates())
-                            .title(sensorList.get(i).getSensorName())
-//                            .snippet(sensorList.get(i).getPm25Value() + (" ug/m3 PM2.5")) // @Todo fix display after data refresh
-                            .icon(BitmapDescriptorFactory
-                                    .fromResource(id))
-                            .anchor(anchorV0, anchorV1)
-            );
-        }
+        //create markers for all sensors
+//        createMapMarkers(sensorList, map);
+        //experiment
+//        MapMarker mapMarker = new MapMarker(sensorList, map);
+//        new MapMarker(sensorList, map, mainActivityContext);
     }
 
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
-
     }
 }
