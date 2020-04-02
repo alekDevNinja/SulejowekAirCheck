@@ -1,13 +1,13 @@
 package com.github.alekdevninja.sulejowekaircheck;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -15,13 +15,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.alekdevninja.sulejowekaircheck.Looko2Tools.Look2Scraper;
+import com.github.alekdevninja.sulejowekaircheck.Map.MapService;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -31,13 +29,17 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     RecyclerViewAdapter adapter;
     ArrayList<Look2Scraper> sensorList;
     SupportMapFragment mapFragment;
-    boolean updatedAfterStart;
+    boolean updatedAfterStart = false;
     private static Context mainActivityContext;
     CircleOptions testCircle;
+    //    View view;
+//    private MapView mapView;
+    private GoogleMap googleMap;
+    private MapService mapService;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         //setup - main layout view + toolbar + support action bar);
         super.onCreate(savedInstanceState);
         setupMainView();
@@ -54,73 +56,20 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         // button on the bottom // UPDATING UI
         buttonOnTheBottomSetup();
 
-        //map setup
-//        MapService mapService = new MapService(R.id.map, sensorList);
-
-        mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
-
+        // mini-map setup
+        initializeMapFragment();
+        mapService = new MapService(sensorList);
     }
 
     @Override
     public void onMapReady(GoogleMap map) {
-        MapMarker mapMarker = new MapMarker(sensorList, map);
+        this.googleMap = map;
 
         //setting map type
         map.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
 
-
-//        //only for testing
-//        //markers setup parameters
-//        int radiusDiameter = 400; // in meters
-//        float strokeWidth = 5; // only important  for visuals
-//        int strokeColor = Color.parseColor("#6d6d6d"); //dark gray | red -> ff0000
-//        int fillColor = 0x336d6d6d; // .fillColor(Color.argb(20, 50, 0, 255)) //this works for tweaking //gray
-//        float anchor = 0.5f; // amount of offset for the icon to be in the middle of the marker
-//
-//        testCircle = new CircleOptions()
-//                .center(sensorList.get(5).getSensorCoordinates())
-//                .radius(radiusDiameter)
-//                .strokeWidth(strokeWidth)
-//                .strokeColor(strokeColor)
-//                .fillColor(fillColor);
-//
-//        map.addCircle(testCircle);
-
+        mapService.populateMapWithMarkers(map);
     }
-
-//    private void createMapMarkers(ArrayList<Look2Scraper> sensorList, GoogleMap map) {
-//        //Adding sensor display parameters
-//        int radiusDiameter = 400; // in meters
-//        float strokeWidth = 5; // only important  for visuals
-//        int strokeColor = Color.parseColor("#6d6d6d"); //dark gray | red -> ff0000
-//        int fillColor = 0x33373737; // .fillColor(Color.argb(20, 50, 0, 255)) //this works for tweaking //gray
-//        float anchor = 0.5f; // amount of offset for the icon to be in the middle of the marker
-//
-//        for (int i = 0; i < sensorList.size(); i++) {
-//
-//            map.addCircle(new CircleOptions()
-//                    .center(sensorList.get(i).getSensorCoordinates())
-//                    .radius(radiusDiameter)
-//                    .strokeWidth(strokeWidth)
-//                    .strokeColor(strokeColor)
-//                    .fillColor(fillColor)
-//            );
-//
-//            int icon_id = getResources().getIdentifier("com.github.alekdevninja.sulejowekaircheck:drawable/ic_" + (i + 1),
-//                    "Drawable",
-//                    "com.github.alekdevninja.sulejowekaircheck"); // finding #id for the correct R.drawable. icon
-//
-//            map.addMarker(new MarkerOptions()
-//                            .position(sensorList.get(i).getSensorCoordinates())
-//                            .title(sensorList.get(i).getSensorName())
-////                            .snippet(sensorList.get(i).getPm25Value() + (" ug/m3 PM2.5")) // @Todo fix display after data refresh
-//                            .icon(BitmapDescriptorFactory
-//                                    .fromResource(icon_id))
-//                            .anchor(anchor, anchor)
-//            );
-//        }
-//    }
 
     private void boottrapingSensorList() {
         sensorList = new ArrayList<>();
@@ -130,7 +79,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         sensorList.add(new Look2Scraper("4", "http://looko2.com/tracker.php?lan=&search=2C3AE834F051", 52.2450, 21.3032)); //UMS1
         sensorList.add(new Look2Scraper("5", "http://looko2.com/tracker.php?lan=&search=807D3A1F6F4F", 52.2521, 21.2456)); //Wola Grzybowska
         sensorList.add(new Look2Scraper("test", "http://looko2.com/tracker.php?lan=&search=807D3A1F6F4F", 52.2400, 21.2456)); //TEST
-
     }
 
     private void buttonOnTheBottomSetup() {
@@ -146,22 +94,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     displayAllSensorsLogs();
                     scrapDataForAllSensors();
                     displayUpdatedData(view);
-
-                    //for testing only
-//                    testCircle.fillColor(Color.parseColor("#ff0000"));
-//                    mapFragment = null;
-//
                 }
             }
         });
-
-
     }
 
-//    private void initializeMapFragment() {
-//        mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-//        mapFragment.getMapAsync(this);
-//    }
+    private void initializeMapFragment() {
+        mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+    }
 
     private void displayUpdatedData(final View view) {
         final Handler handler = new Handler();
@@ -173,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         .setAction("Action", null).show();
             }
         };
-        handler.postDelayed(r, 2500);
+        handler.postDelayed(r, 2000);
 
     }
 
@@ -184,11 +125,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     private void setupMainView() {
+
         updatedAfterStart = false;
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-//        viewController = new MainViewController();
         mainActivityContext = getApplicationContext(); //setting main activity context for other fragments
     }
 
@@ -236,6 +177,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Toast.makeText(this, "TestButton clicked!", Toast.LENGTH_LONG).show();
+            //test features here:
+
             return true;
         }
 
@@ -246,23 +190,5 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onPointerCaptureChanged(boolean hasCapture) {
 
     }
-
-//    void updateSensorInfo(Look2Scraper look2ScraperObj) {
-//        updateTextView(look2ScraperObj.getSensorName(), R.id.textView_sensorName);
-//        updateTextView(look2ScraperObj.getPm25ValueString(), R.id.textView_pm25value);
-//        updateTextView(look2ScraperObj.getPm25Percentage(), R.id.textView_percentageValue);
-//
-//        // set name
-//        //set PM2.5
-//        //set %
-//
-////        TextView textView = (TextView) findViewById(textViewId);
-////        textView.setText(sensorName);
-//    }
-//
-//    void updateTextView(String dataSource, int textViewId) {
-//        TextView textView = (TextView) findViewById(textViewId);
-//        textView.setText(dataSource);
-//    }
 
 }
