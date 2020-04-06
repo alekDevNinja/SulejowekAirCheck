@@ -19,8 +19,8 @@
 
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyBNnaN-hZfqF5AmmIkBejwZTLSN-fVdeqU" />
-        <!--            android:value="MY_KEY_HERE" />-->
+        
+                    android:value="MY_KEY_HERE" />
 
         <activity
             android:name=".MainActivity"
@@ -33,7 +33,6 @@
         </activity>
         <activity android:name=".MainViewController" />
         <activity android:name=".Map.MapService" />
-        <activity android:name=".TempMapMarker" />
 
     </application>
 

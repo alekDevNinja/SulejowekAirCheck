@@ -2,9 +2,44 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.github.alekdevninja.sulejowekaircheck.MainActivity">
+<!--    <item-->
+<!--        android:id="@+id/action_delete_all_markers"-->
+<!--        android:orderInCategory="100"-->
+<!--        android:title="delete markers"-->
+<!--        app:showAsAction="never" />-->
+<!--    <item-->
+<!--        android:id="@+id/action_add_all_markers"-->
+<!--        android:orderInCategory="100"-->
+<!--        android:title="add all marker"-->
+<!--        app:showAsAction="never" />-->
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/action_add_new_sensor"
         android:orderInCategory="100"
-        android:title="@string/action_settings"
+        android:title="action_add_new_sensor"
         app:showAsAction="never" />
-    </menu>
+<!--    <item-->
+<!--        android:orderInCategory="100"-->
+<!--        android:id="@+id/action_set_color"-->
+<!--        android:title="set color"-->
+<!--        app:showAsAction="never" />-->
+<!--    <item-->
+<!--        android:orderInCategory="100"-->
+<!--        android:id="@+id/action_clear_all_markers"-->
+<!--        android:title="action_clear_all_markers"-->
+<!--        app:showAsAction="never" />-->
+<!--    <item-->
+<!--        android:orderInCategory="100"-->
+<!--        android:id="@+id/action_populateMapWithMarkers"-->
+<!--        android:title="populate Map With Markers"-->
+<!--        app:showAsAction="never" />-->
+    <item
+        android:id="@+id/action_refresh_map"
+        android:orderInCategory="100"
+        android:title="action_refresh_map"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_print_log_in_console"
+        android:orderInCategory="100"
+        android:title="print LOG"
+        app:showAsAction="never" />
+</menu>

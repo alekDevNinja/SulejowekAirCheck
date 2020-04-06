@@ -16,11 +16,8 @@ import java.net.URLConnection;
 public class Look2Scraper implements Runnable {
     private static int sensorsCreated = 0;
 
-    public int getSensorId() {
-        return sensorId;
-    }
-
     private int sensorId; // numeric Id of sensor in the local sensors list
+
     private String sensorName; // sensor name given on instance creation
     private String pm25Value; // scraped & formatted PM2.5 value
     private String pm25Percentage; // scraped & formatted % of healthy norm value
@@ -28,7 +25,6 @@ public class Look2Scraper implements Runnable {
     private String subPageLink; // link for the designated sensor web page
     private boolean wasUpdated; // was the object updated with scraped data since its creation
     private LatLng sensorCoordinates;
-
 
     /**
      * 1. input the link on the constructor
@@ -101,6 +97,7 @@ public class Look2Scraper implements Runnable {
     }
 
     //scraping the PM2.5 value from the subPage
+
     private String valueExtractor(String scannerOutputLine) {
         this.scannerOutputLine = scannerOutputLine;
         String extractorRawOutput = "something went wrong (getPM2Value() method)";
@@ -115,7 +112,6 @@ public class Look2Scraper implements Runnable {
         extractorRawOutput = pm25Value;
         return extractorRawOutput;
     }
-
     private String makeScrapedDataReadable(String pm25Value) {
         String outputString = "something went wrong in the \"makeScrapedDataReadable()\"";
 
@@ -139,6 +135,7 @@ public class Look2Scraper implements Runnable {
         return outputString;
     }
 
+
     @Override
     public String toString() {
         if (pm25Value.equals("offline")) {
@@ -154,7 +151,6 @@ public class Look2Scraper implements Runnable {
     public boolean isWasUpdated() {
         return wasUpdated;
     }
-
 
     public String getPm25Percentage() {
         return pm25Percentage;
@@ -178,6 +174,10 @@ public class Look2Scraper implements Runnable {
 
     public LatLng setSensorCoordinates(double locationLatitude, double locationLongitude) {
         return new LatLng(locationLatitude, locationLongitude);
+    }
+
+    public int getSensorId() {
+        return sensorId;
     }
 
 }
