@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.util.Log;
 
 import com.github.alekdevninja.sulejowekaircheck.Looko2Tools.Look2Scraper;
+import com.github.alekdevninja.sulejowekaircheck.Looko2Tools.SensorDB;
 import com.github.alekdevninja.sulejowekaircheck.MainActivity;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -16,22 +17,27 @@ import java.util.ArrayList;
 public class MapService extends SupportMapFragment implements OnMapReadyCallback {
     //    private SupportMapFragment mapFragment;
     private ArrayList<Look2Scraper> sensorList;
-    public ArrayList<MapMarker> mapMarkers;
+    public ArrayList<SensorMarker> sensorMarkers;
     private Context context;
     private GoogleMap googleMap;
     CircleOptions testCircle;
     public static int markersCreated;
+    private SensorDB sensorDB;
 
-    public MapService(ArrayList<Look2Scraper> sensorList) {
+    //    public MapService(ArrayList<Look2Scraper> sensorList) {
+    public MapService(SensorDB sensorDB) {
         this.context = MainActivity.getMainActivityContext(); //getting the MainActivity context
-        this.sensorList = sensorList;
-        mapMarkers = new ArrayList<MapMarker>();
+        this.sensorDB = sensorDB;
+//        this.sensorList = sensorList;
+        sensorMarkers = new ArrayList<SensorMarker>();
 
-        generateAllMarkers();
+//        generateAllMarkers(); //not needed anymore, every sensor generates its own marker
+
+
     }
 
     public void removeAllExistingMarkersInDB() {
-        mapMarkers.removeAll(mapMarkers);
+        sensorMarkers.removeAll(sensorMarkers);
     }
 
     @Override
@@ -44,36 +50,61 @@ public class MapService extends SupportMapFragment implements OnMapReadyCallback
 //        populateMapWithMarkers(googleMap);
     }
 
-    public void generateAllMarkers() {
-        Log.i("MapService", "generateAllMarkers() - starting to create all markers");
-        for (int i = 0; i < sensorList.size(); i++) {
-            markersCreated++;
-            Log.i("MapService", "generateAllMarkers() - marker #" + i + " created");
-            mapMarkers.add(
-                    new MapMarker(
-                            sensorList.get(i).getSensorCoordinates(),
-                            context, //main activity context passed for icon number finding
-                            i, //sensor #id
-                            sensorList.get(i).getSensorName(), //sensor name for the onClick display
-//                            0x33ff0000 //red
-                            0x33373737 //grey
+//        public void generateAllMarkers() {
+//        Log.i("MapService", "generateAllMarkers() - starting to create all markers");
+//        for (int i = 0; i < sensorDB.getSensorDBSize(); i++) {
+//
+//            Log.i("MapService", "generateAllMarkers() - marker #" + i + " created");
+//            sensorMarkers.add(
+//                    new SensorMarker(
+//                            sensorList.get(i).getSensorCoordinates(),
+//                            context, //main activity context passed for icon number finding
+//                            i, //sensor #id
+////                            sensorList.get(i).getSensorName(), //sensor name for the onClick display
+////                            0x33ff0000 //red
+//                            0x33373737 //grey
+//                    )
+//
+//            );
+//            Log.i("MapService", "marker #" + i + " sensorList.get(i).getSensorCoordinates(): " + sensorList.get(i).getSensorCoordinates());
+//            Log.i("MapService", "marker #" + i + " sensorList.get(i).getSensorName(): " + sensorList.get(i).getSensorName());
+//
+//
+//            Log.i("MapService", "generateAllMarkers() - marker #" + i + " added to the mapMarkers list");
+//        }
+//        Log.i("MapService", "generateAllMarkers() - all markers created");
+//    }
 
-                    )
-            );
-            Log.i("MapService", "marker #" + i + " sensorList.get(i).getSensorCoordinates(): " + sensorList.get(i).getSensorCoordinates());
-            Log.i("MapService", "marker #" + i + " sensorList.get(i).getSensorName(): " + sensorList.get(i).getSensorName());
-
-
-            Log.i("MapService", "generateAllMarkers() - marker #" + i + " added to the mapMarkers list");
-        }
-        Log.i("MapService", "generateAllMarkers() - all markers created");
-    }
+//    public void generateAllMarkers() {
+//        Log.i("MapService", "generateAllMarkers() - starting to create all markers");
+//        for (int i = 0; i < sensorList.size(); i++) {
+//            markersCreated++;
+//            Log.i("MapService", "generateAllMarkers() - marker #" + i + " created");
+//            sensorMarkers.add(
+//                    new SensorMarker(
+//                            sensorList.get(i).getSensorCoordinates(),
+//                            context, //main activity context passed for icon number finding
+//                            i, //sensor #id
+////                            sensorList.get(i).getSensorName(), //sensor name for the onClick display
+////                            0x33ff0000 //red
+//                            0x33373737 //grey
+//
+//                    )
+//            );
+//            Log.i("MapService", "marker #" + i + " sensorList.get(i).getSensorCoordinates(): " + sensorList.get(i).getSensorCoordinates());
+//            Log.i("MapService", "marker #" + i + " sensorList.get(i).getSensorName(): " + sensorList.get(i).getSensorName());
+//
+//
+//            Log.i("MapService", "generateAllMarkers() - marker #" + i + " added to the mapMarkers list");
+//        }
+//        Log.i("MapService", "generateAllMarkers() - all markers created");
+//    }
 
     public void populateMapWithMarkers(GoogleMap map) {
         //add markers to the map for every sensor in the sensor list
-        for (int i = 0; i < mapMarkers.size(); i++) {
-            map.addCircle(mapMarkers.get(i).getCircle());
-            map.addMarker(mapMarkers.get(i).getMarker());
+        for (int i = 0; i < sensorMarkers.size(); i++) {
+            map.addCircle(sensorMarkers.get(i).getCircle());
+            map.addMarker(sensorMarkers.get(i).getMarker());
         }
     }
 

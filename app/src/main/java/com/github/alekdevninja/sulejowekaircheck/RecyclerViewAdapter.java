@@ -8,18 +8,20 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.github.alekdevninja.sulejowekaircheck.Looko2Tools.Look2Scraper;
+import com.github.alekdevninja.sulejowekaircheck.Looko2Tools.Sensor;
 
 import java.util.List;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
-    private List<Look2Scraper> mData;
+//    private List<Sensor> mData;
+    private List<Sensor> mData;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
 
     // data is passed into the constructor
-    public RecyclerViewAdapter(Context context, List<Look2Scraper> data) {
+//    public RecyclerViewAdapter(Context context, List<Look2Scraper> data) {
+        public RecyclerViewAdapter(Context context, List<Sensor> data) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
     }
@@ -34,8 +36,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     // binds the data to the TextView in each row
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Look2Scraper sensor = mData.get(position);
-        holder.sensorName.setText(sensor.getSensorName());
+        Sensor sensor = mData.get(position);
+//        holder.sensorName.setText(sensor.getSensorName());
+        holder.sensorName.setText(String.valueOf(sensor.getSensorId())); //@todo fix - broken after DB refactor
         holder.pm25Value.setText(sensor.getPm25Value());
         holder.percentOfNorm.setText(sensor.getPm25Percentage());
     }
@@ -61,7 +64,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     // convenience method for getting data at click position
-    Look2Scraper getItem(int id) {
+    Sensor getItem(int id) {
         return mData.get(id);
     }
 
