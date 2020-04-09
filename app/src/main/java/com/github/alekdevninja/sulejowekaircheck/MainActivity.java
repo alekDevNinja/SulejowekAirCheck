@@ -1,12 +1,14 @@
 package com.github.alekdevninja.sulejowekaircheck;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -156,7 +158,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         return googleMap;
     }
 
-        private void displaySensorLog(int i) {
+    private void displaySensorLog(int i) {
         Log.i("MainActivity", "---------------------------------------");
         Log.i("MainActivity", "sensors id#" + sensorDB.getSensor(i).getSensorId());
         Log.i("MainActivity", "PM2.5 = " + sensorDB.getSensor(i).getPm25Value());
@@ -187,135 +189,33 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         switch (id) {
 
-//            case (R.id.action_clear_all_markers):{
-//                Log.i("MapService", "clearing map");
-//                googleMap.clear();
-//                Log.i("MapService", "map cleared");
-////                Log.i("MapService", "populating map with markers");
-////                mapService.populateMapWithMarkers(googleMap);
-////                Log.i("MapService", "map populated with markers");
-//                break;}
+            case (R.id.action_clear_all_markers):{
+                Log.i("MapService", "clearing map");
+                googleMap.clear();
+                Log.i("MapService", "map cleared");
+                break;}
 
-//            case (R.id.action_populateMapWithMarkers):{
-//                mapService.populateMapWithMarkers(googleMap);
-//                break;}
+            case (R.id.action_set_color): {
+                Toast.makeText(this, "action_set_color clicked!", Toast.LENGTH_LONG).show();
+               //test features here:
 
-//            case (R.id.action_set_color): {
-//                Toast.makeText(this, "action_set_color clicked!", Toast.LENGTH_LONG).show();
-//                //test features here:
-//
-//
-//                mapService.removeAllExistingMarkersInDB();
-//                mapService.generateAllMarkers();
-//
-//                int idToChange = 0;
-//
-////                mapService.mapMarkers.get(1).setFillColor(Color.parseColor("#ff0000"));
-////                mapService.mapMarkers.get(1).setStrokeColor(Color.parseColor("#ff0000"));
-//                Log.i("MapService", "old colors:");
-//                Log.i("MapService", "fill color: " + mapService.mapMarkers.get(idToChange).getFillColor());
-//                Log.i("MapService", "stroke color: " + mapService.mapMarkers.get(idToChange).getStrokeColor());
-//
+                int idToChange = 0;
+
 //                mapService.mapMarkers.get(idToChange).setFillColor(0x33ff0000);
-////                mapService.mapMarkers.get(idToChange).setStrokeColor(Color.argb(128, 255, 0, 0));
-//
-//                Log.i("MapService", "new colors: ");
-//                Log.i("MapService", "fill color: " + mapService.mapMarkers.get(idToChange).getFillColor());
-//                Log.i("MapService", "stroke color: " + mapService.mapMarkers.get(idToChange).getStrokeColor());
-//
-////                googleMap.addMarker(mapService.mapMarkers.get(1).getMarker());
-////                googleMap.addCircle(mapService.mapMarkers.get(1).getCircle());
-//
-//
-//                mapService.populateMapWithMarkers(googleMap);
-//                break;
-//            }
+//                mapService.mapMarkers.get(idToChange).setStrokeColor(Color.argb(128, 255, 0, 0));
+                sensorDB.getSensor(idToChange).removeSensorMarker();
+                sensorDB.getSensor(idToChange).createSensorMarker(0x33ff0000);
 
-//            case (R.id.action_delete_all_markers):{
-////                Toast.makeText(this, "clear clicked!", Toast.LENGTH_LONG).show();
-//                googleMap.clear();
-//                mapService.mapMarkers = new ArrayList<MapMarker>();
-//                sensorList = new ArrayList<Look2Scraper>();
-//                MapMarker.resetIdCounter();
-//                break;}
 
-//            case (R.id.action_add_all_markers):{
-//                Toast.makeText(this, "add all marker clicked!", Toast.LENGTH_LONG).show();
-//                mapService.generateAllMarkers();
-//                mapService.populateMapWithMarkers(googleMap);
-//                break;}
+                break;
+            }
 
-//            case (R.id.action_add_new_sensor): {
-////                sensorList.add(new Look2Scraper("test", "http://looko2.com/tracker.php?lan=&search=807D3A1F6F4F", 52.2400, 21.2456)); //TEST
-////
-////                int newSensorId = sensorList.size() - 1;
-//////                int newSensorId = MapMarker.getId();
-//////                int newSensorId = sensorList.size();
-////
-////                mapService.sensorMarkers.add(
-////                        new SensorMarker(
-////                                sensorList.get(newSensorId).getSensorCoordinates(),
-////                                mainActivityContext,
-////                                newSensorId,
-//////                                sensorList.get(newSensorId).getSensorName(),
-////                                0x33ff0000
-////                        )
-////                );
-////
-////                googleMap.addCircle(mapService.sensorMarkers.get(newSensorId).getCircle());
-////                googleMap.addMarker(mapService.sensorMarkers.get(newSensorId).getMarker());
-////                break;
-//            }
-//
-//            case (R.id.action_refresh_map): {
-//                googleMap.clear();
-////                mapService.removeAllExistingMarkersInDB();
-////                mapService.generateAllMarkers();
-////                mapService.populateMapWithMarkers(googleMap);
-//
-//                break;
-//            }
-//
-//
-//            case (R.id.action_print_log_in_console): {
-//                Toast.makeText(this, "Logs printed to console", Toast.LENGTH_LONG).show();
-//                Log.i("Backlog", "---------------------------------------");
-//
-//                //print sensorList
-//                Log.i("Backlog", "sensorList content:");
-//                for (int i = 0; i < sensorList.size(); i++) {
-//                    Log.i("Backlog", "sensor " + sensorList.get(i).getSensorId());
-//                    System.out.println(sensorList.get(i).getSensorId());
-//                }
-//
-//                Log.i("Backlog", "all markers existing:" + SensorMarker.getId());
-////                Log.i("Backlog", "markerList content: ");
-////                for (int i = 0; i < mapService.mapMarkers.size(); i++) {
-//////                    Log.i("Backlog", "marker " + MapService.markersCreated
-////                            );
-////                }
-//                break;
-//            }
-//
+
 
         }
 
 
-//        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            Toast.makeText(this, "TestButton clicked!", Toast.LENGTH_LONG).show();
-//            //test features here:
-//
-//            mapService.mapMarkers.get(1).setFillColor(Color.parseColor("#ff0000"));
-//            mapService.mapMarkers.get(1).setStrokeColor(Color.parseColor("#ff0000"));
-//            Log.i("MapService", "fill color: " + mapService.mapMarkers.get(1).getFillColor());
-//            Log.i("MapService", "stroke color: " + mapService.mapMarkers.get(1).getStrokeColor());
-//            googleMap.clear();
-//            googleMap.addMarker(mapService.mapMarkers.get(1).getMarker());
-//            googleMap.addCircle(mapService.mapMarkers.get(1).getCircle());
-//
-//            return true;
-//        }
+
 
         return super.onOptionsItemSelected(item);
     }

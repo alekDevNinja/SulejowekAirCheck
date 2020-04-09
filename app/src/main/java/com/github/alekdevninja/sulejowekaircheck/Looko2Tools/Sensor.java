@@ -4,11 +4,8 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.github.alekdevninja.sulejowekaircheck.MainActivity;
 import com.github.alekdevninja.sulejowekaircheck.Map.SensorMarker;
-import com.github.alekdevninja.sulejowekaircheck.R;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -25,6 +22,7 @@ public class Sensor extends SupportMapFragment implements OnMapReadyCallback {
     private Scraper scraper;
     GoogleMap googleMap;
     Context mainActivityContext;
+    int defFillColor = 0x33373737;
 
     public Sensor(String sensorHttpLink, double locationLatitude, double locationLongitude) {
         setSensorId();
@@ -46,35 +44,22 @@ public class Sensor extends SupportMapFragment implements OnMapReadyCallback {
             }
         });
 
-        AsyncTask.execute(new Runnable() {
-            @Override
-            public void run() {
+        createSensorMarker(defFillColor);
+
+        Log.i("Sensor", "Sensor object: " + getSensorId() + " created");
+    }
+
+    public void createSensorMarker(int fillColor) {
                 sensorMarker = new SensorMarker(
                         getSensorId(), //sensor #id
                         sensorCoordinates,
-                        0x33373737 //grey default color
+                        fillColor //grey default color
                 );
                 Log.i("Sensor", "SensorMarker created");
-            }
-        });
+    }
 
-
-        //todo fix this - proboly wrong context related
-//        googleMap.addMarker(sensorMarker.getMarker());
-//        googleMap.addCircle(sensorMarker.getCircle());
-
-//        AsyncTask.execute(new Runnable() {
-//            @Override
-//            public void run() {
-//                googleMap.addMarker(sensorMarker.getMarker());
-//                googleMap.addCircle(sensorMarker.getCircle());
-//            }
-//        });
-
-//        googleMap.addMarker(sensorMarker.getMarker());
-//        googleMap.addCircle(sensorMarker.getCircle());
-
-        Log.i("Sensor", "Sensor object: " + getSensorId() + " created");
+    public void removeSensorMarker(){
+        sensorMarker = null;
     }
 
     @Override
@@ -92,16 +77,6 @@ public class Sensor extends SupportMapFragment implements OnMapReadyCallback {
 
 //        addMapMarkersToGoogleMap();
 
-    }
-
-    public void addMapMarkersToGoogleMap() {
-        AsyncTask.execute(new Runnable() {
-            @Override
-            public void run() {
-                googleMap.addMarker(sensorMarker.getMarker());
-                googleMap.addCircle(sensorMarker.getCircle());
-            }
-        });
     }
 
     public String getPm25Value() {
@@ -127,5 +102,9 @@ public class Sensor extends SupportMapFragment implements OnMapReadyCallback {
         return sensorMarker;
     }
 
+    public void setColor(int fillColor) {
+        sensorMarker.setFillColor(fillColor);
+//        this.fillColor = fillColor;
+    }
 
 }

@@ -63,7 +63,6 @@ private GoogleMap googleMapContext; //main activity mapContext passed for icon n
         anchor = 0.5f; // amount of offset for the icon to be in the middle of the marker
     }
 
-
     public void setStrokeColor(int strokeColor) {
         this.strokeColor = strokeColor;
     }
