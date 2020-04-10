@@ -1,9 +1,7 @@
-package com.github.alekdevninja.sulejowekaircheck.Looko2Tools;
+package com.github.alekdevninja.sulejowekaircheck.SensorTools;
 
 import android.os.AsyncTask;
 import android.util.Log;
-
-import com.google.android.gms.maps.model.LatLng;
 
 import java.io.BufferedReader;
 import java.io.IOException;

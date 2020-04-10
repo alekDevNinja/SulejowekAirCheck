@@ -1,4 +1,4 @@
-package com.github.alekdevninja.sulejowekaircheck.Looko2Tools;
+package com.github.alekdevninja.sulejowekaircheck.SensorTools;
 
 public abstract class AbstractSensor {
 

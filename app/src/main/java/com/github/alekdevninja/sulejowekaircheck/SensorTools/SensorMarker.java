@@ -1,4 +1,4 @@
-package com.github.alekdevninja.sulejowekaircheck.Map;
+package com.github.alekdevninja.sulejowekaircheck.SensorTools;
 
 import android.content.Context;
 import android.graphics.Color;

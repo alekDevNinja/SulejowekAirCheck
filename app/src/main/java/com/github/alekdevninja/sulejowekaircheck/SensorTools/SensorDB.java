@@ -1,8 +1,4 @@
-package com.github.alekdevninja.sulejowekaircheck.Looko2Tools;
-
-import android.util.Log;
-
-import com.google.android.gms.maps.GoogleMap;
+package com.github.alekdevninja.sulejowekaircheck.SensorTools;
 
 import java.util.ArrayList;
 

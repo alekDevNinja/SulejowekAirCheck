@@ -1,7 +1,6 @@
 package com.github.alekdevninja.sulejowekaircheck;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -15,8 +14,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.github.alekdevninja.sulejowekaircheck.Looko2Tools.Sensor;
-import com.github.alekdevninja.sulejowekaircheck.Looko2Tools.SensorDB;
+import com.github.alekdevninja.sulejowekaircheck.SensorTools.Sensor;
+import com.github.alekdevninja.sulejowekaircheck.SensorTools.SensorDB;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -197,7 +196,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             case (R.id.action_set_color): {
                 Toast.makeText(this, "action_set_color clicked!", Toast.LENGTH_LONG).show();
-               //test features here:
 
                 int idToChange = 0;
 
