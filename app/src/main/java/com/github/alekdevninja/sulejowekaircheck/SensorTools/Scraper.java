@@ -47,9 +47,9 @@ public class Scraper implements Runnable {
             // read each line and scan for PM2.5 value
             while ((scannerOutputLine = bufferedReader.readLine()) != null) {
                 if (scannerOutputLine.startsWith("Czujnik nie przesyłał danych")) {
-                    pm25Value = "offline";
-                    pm25Percentage = "offline";
-                    scrapedOutput = "offline";
+                    pm25Value = "offline ";
+                    pm25Percentage = "offline ";
+                    scrapedOutput = "offline ";
                 } else {
                     scrapedOutput = valueExtractor(scannerOutputLine);
 //                    wasUpdated = true;
@@ -63,9 +63,6 @@ public class Scraper implements Runnable {
             Log.e("Scraper", "undefined error");
         }
 
-//        Log.i("Look2Scraper",
-//                getSensorName() + " id#" + getSensorId() +
-//                        " scraped output: " + scrapedOutput);
         return scrapedOutput;
     }
 
@@ -84,6 +81,7 @@ public class Scraper implements Runnable {
         extractorRawOutput = pm25Value;
         return extractorRawOutput;
     }
+
     private String makeScrapedDataReadable(String pm25Value) {
         String outputString = "something went wrong in the \"makeScrapedDataReadable()\"";
 
@@ -93,14 +91,15 @@ public class Scraper implements Runnable {
         StringBuilder percentageStringBuilder = new StringBuilder();
         percentageStringBuilder.append(pm25Value);
 
-        //cut&slash to get PM2.5 only
+        //cut&slash to get PM2.5 only //Todo - add the ug/m3 (PM2.5) here and not in the static layout
         pm25StringBuilder.replace(0, 75, "");
         pm25StringBuilder.replace(pm25StringBuilder.indexOf(" "), pm25StringBuilder.length(), "");
+//        pm25StringBuilder.append(" ug/m3 (PM2.5)");
 
-        //cut&shash to get the percentage value only
+        //cut&slash to get the percentage value only
         percentageStringBuilder.replace(0, percentageStringBuilder.indexOf("(") + 1, "");
         percentageStringBuilder.replace(percentageStringBuilder.indexOf("%"), percentageStringBuilder.length(), "");
-
+        percentageStringBuilder.append("% ");
 
         pm25Percentage = percentageStringBuilder.toString();
         outputString = pm25StringBuilder.toString();

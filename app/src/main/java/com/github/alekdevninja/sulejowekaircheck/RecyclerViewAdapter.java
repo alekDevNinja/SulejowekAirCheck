@@ -14,14 +14,12 @@ import java.util.List;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
-//    private List<Sensor> mData;
     private List<Sensor> mData;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
 
     // data is passed into the constructor
-//    public RecyclerViewAdapter(Context context, List<Look2Scraper> data) {
-        public RecyclerViewAdapter(Context context, List<Sensor> data) {
+    public RecyclerViewAdapter(Context context, List<Sensor> data) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
     }
@@ -68,7 +66,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return mData.get(id);
     }
 
-//    // allows clicks events to be caught
+//    // allows clicks events to be caught //todo - fix this
 //    public void setClickListener(ItemClickListener itemClickListener) {
 //        this.mClickListener = itemClickListener;
 //    }

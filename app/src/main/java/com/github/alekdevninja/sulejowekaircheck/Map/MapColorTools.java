@@ -1,6 +1,5 @@
 package com.github.alekdevninja.sulejowekaircheck.Map;
 
-
     /*
  0-13        very good // 4eac5a (green) // 0000ff (blue)
  13,1 - 35   good // a0cd63
@@ -10,13 +9,11 @@ package com.github.alekdevninja.sulejowekaircheck.Map;
  >110        very bad // b02318
     */
 
-
 public class MapColorTools {
     private int pm25amount;
 
     public MapColorTools(int pm25amount) {
         this.pm25amount = pm25amount;
-
     }
 
     public int determineColorsBasedOnPmValues() {
@@ -33,7 +30,6 @@ public class MapColorTools {
         } else if (pm25amount < 110) {
             output = 0x334eac5a;
         }
-
 
         return output;
     }

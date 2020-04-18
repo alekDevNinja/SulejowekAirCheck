@@ -2,19 +2,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.github.alekdevninja.sulejowekaircheck.MainActivity">
+
     <item
+        android:id="@+id/author"
         android:orderInCategory="100"
-        android:id="@+id/action_set_color"
-        android:title="set color"
-        app:showAsAction="never" />
-    <item
-        android:orderInCategory="100"
-        android:id="@+id/action_clear_all_markers"
-        android:title="action_clear_all_markers"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/action_print_log_in_console"
-        android:orderInCategory="100"
-        android:title="print LOG"
+        android:title="@string/menu_about"
         app:showAsAction="never" />
 </menu>

@@ -6,12 +6,15 @@
     android:orientation="vertical"
     tools:showIn="@layout/activity_main">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="60dp"
-        android:layout_marginBottom="8dp"
-        android:text="overview overview overview overview \n overview overview overview overview " />
+    <!--    @ToDo overview screen-->
+    <!--    <TextView-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_gravity="center"-->
+    <!--        android:layout_marginTop="0dp"-->
+    <!--        android:layout_marginBottom="0dp"-->
+    <!--        android:text=""-->
+    <!--        />-->
+
 
 </LinearLayout>

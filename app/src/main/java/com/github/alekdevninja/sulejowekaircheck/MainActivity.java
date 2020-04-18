@@ -37,9 +37,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setupMainView();
 
-        initializeMapFragment(); // startup the map
+        // startup the map
+        initializeMapFragment();
 
-        sensorDB = new SensorDB(); //startup the DB for sensors
+        //startup the DB for sensors
+        sensorDB = new SensorDB();
 
         //setup the RecyclerView
         recyclerViewSetup(sensorDB.getSensorDB());
@@ -62,10 +64,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 //clear map from old markers
                 googleMap.clear(); //clearing map for a new fresh markers&circles
 
-                //clear DB
+                //clear DB from existing sensors
                 sensorDB.removeAllSensorsInDB();
 
-                //add sensors to DB
+                //add fresh sensors to DB
                 bootstrapSensorDB();
 
                 //add mapMarkers based on sensors & update recycle view
@@ -101,7 +103,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private void initializeMapFragment() {
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+        if (mapFragment != null) {
+            mapFragment.getMapAsync(this);
+        }
     }
 
     public void displayUpdatedData(final View view) {
@@ -126,12 +130,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mainActivityContext = getApplicationContext(); //setting main activity context for other fragments
     }
 
-    //    private void recyclerViewSetup(ArrayList<Look2Scraper> sensorList) {
     private void recyclerViewSetup(ArrayList<Sensor> sensors) {
         RecyclerView recyclerView = findViewById(R.id.rvSensors);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new RecyclerViewAdapter(this, sensors);
 //        adapter.setClickListener((RecyclerViewAdapter.ItemClickListener) this);
+//        ToDo - create the onClick forwarding user to the web page of curent sensor
         recyclerView.setAdapter(adapter);
     }
 
@@ -162,32 +166,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         int id = item.getItemId();
 
         switch (id) {
-
-            case (R.id.action_clear_all_markers): {
-                Log.i("MapService", "clearing map");
-                googleMap.clear();
-                Log.i("MapService", "map cleared");
-                break;
-            }
-
-            case (R.id.action_set_color): {
-                Toast.makeText(this, "action_set_color clicked!", Toast.LENGTH_LONG).show();
-
-                int idToChange = 0;
-
-//                mapService.mapMarkers.get(idToChange).setFillColor(0x33ff0000);
-//                mapService.mapMarkers.get(idToChange).setStrokeColor(Color.argb(128, 255, 0, 0));
-                sensorDB.getSensor(idToChange).removeSensorMarker();
-                sensorDB.getSensor(idToChange).createSensorMarker(0x33ff0000);
-
+            case (R.id.author): {
 
                 break;
             }
-
 
         }
-
-
         return super.onOptionsItemSelected(item);
     }
 
