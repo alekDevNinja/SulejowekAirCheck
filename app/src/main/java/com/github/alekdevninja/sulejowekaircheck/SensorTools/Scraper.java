@@ -11,24 +11,24 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
-public class Scraper implements Runnable  {
+public class Scraper implements Runnable {
     private String pm25Value; // scraped & formatted PM2.5 value
     private String pm25Percentage; // scraped & formatted % of healthy norm value
     private String scannerOutputLine; // working area for scraping
     private String subPageLink; // link for the designated sensor web page
 
 
-    public Scraper(String subPageLink) {
+    Scraper(String subPageLink) {
         this.subPageLink = subPageLink;
     }
 
-    public void updateSensorData() {
+    void updateSensorData() {
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
                 pm25Value = extractPM2Value();
 //                if (!pm25Value.equals("offline")) wasUpdated = true;
-                Log.i("Scraper",  " Sensor was updated " + pm25Value);
+                Log.i("Scraper", " Sensor was updated " + pm25Value);
             }
         });
     }
@@ -70,7 +70,6 @@ public class Scraper implements Runnable  {
     }
 
     //scraping the PM2.5 value from the subPage
-
     private String valueExtractor(String scannerOutputLine) {
         this.scannerOutputLine = scannerOutputLine;
         String extractorRawOutput = "something went wrong (getPM2Value() method)";
@@ -108,10 +107,11 @@ public class Scraper implements Runnable  {
         return outputString;
     }
 
-    public String getPm25Value() {
+    String getPm25Value() {
         return pm25Value;
     }
-    public String getPm25Percentage() {
+
+    String getPm25Percentage() {
         return pm25Percentage;
     }
 

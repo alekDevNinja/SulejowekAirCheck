@@ -7,6 +7,7 @@ public class SensorDB {
 
     public SensorDB() {
         sensorDB = new ArrayList<>();
+        addSensor(new Sensor("", 0, 0)); // temp sensor only for initial display
     }
 
     public Sensor getSensor(int sensorId) {
@@ -25,17 +26,8 @@ public class SensorDB {
         return sensorDB;
     }
 
-    //    public void printInLogAllSensors() {
-//
-//        Log.i("SensorDB", "---------------------------------------");
-//        for (int i = 0; i < getSensorDBSize(); i++) {
-//            Log.i("SensorDB", "sensor preview:");
-//
-//            Log.i("SensorDB", "sensor id#" + sensorDB.get(i).getSensorId());
-//            Log.i("SensorDB", "PM2.5 = " + sensorList.get(i).getPm25Value());
-//            Log.i("SensorDB", sensorList.get(i).getPm25Percentage() + "% of norm");
-//            Log.i("SensorDB", "was updated yet: " + sensorList.get(i).isWasUpdated());
-//
-//        }
-//    }
+    public void removeAllSensorsInDB() {
+        sensorDB.removeAll(sensorDB);
+        AbstractSensor.sensorsCreated = 1;
+    }
 }

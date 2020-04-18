@@ -20,7 +20,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 
@@ -29,6 +28,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     SupportMapFragment mapFragment;
     public static GoogleMap googleMap;
     private static Context mainActivityContext;
+    private View viewPlaceholder;
     SensorDB sensorDB;
 
     @Override
@@ -37,75 +37,61 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setupMainView();
 
-        // mini-map setup
-        initializeMapFragment();
+        initializeMapFragment(); // startup the map
 
-        //refactored version DB 2.0
-        sensorDB = new SensorDB();
+        sensorDB = new SensorDB(); //startup the DB for sensors
 
-        //data to populate the RecyclerView with
-        boottrapSensorDB();
-
-        //set up the RecyclerView
+        //setup the RecyclerView
         recyclerViewSetup(sensorDB.getSensorDB());
 
-        // button on the bottom // UPDATING UI
-        buttonOnTheBottomSetup();
+        // setup the refresh bottom // UPDATING UI
+        buttonRefresh();
+
+        //populate the DB with data
+        bootstrapSensorDB();
+
+        //update data in the recycler view
+        displayUpdatedData(viewPlaceholder);
     }
 
-    @Override
-    public void onMapReady(GoogleMap map) {
-        googleMap = map;
-
-        //setting map type
-        map.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
-    }
-
-    private void buttonOnTheBottomSetup() {
+    private void buttonRefresh() {
         FloatingActionButton floatingActionButton = findViewById(R.id.fab);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                displayUpdatedData(view); //update recycle view
+                //clear map from old markers
                 googleMap.clear(); //clearing map for a new fresh markers&circles
 
-                for (int i = 0; i < sensorDB.getSensorDBSize(); i++) {
-                    googleMap.addMarker(
-                            sensorDB.getSensor(i)
-                                    .getSensorMarker()
-                                    .getMarker()
-                    );
-                    googleMap.addCircle(
-                            sensorDB.getSensor(i)
-                                    .getSensorMarker()
-                                    .getCircle()
-                    );
-                }
-                displayAllSensorsLogs();
+                //clear DB
+                sensorDB.removeAllSensorsInDB();
+
+                //add sensors to DB
+                bootstrapSensorDB();
+
+                //add mapMarkers based on sensors & update recycle view
+                displayUpdatedData(view);
             }
 
-//                                                    private void setupParameters() {
-////        setId(); // track count of created objects so far - id++
-//
-//                                                        radiusDiameter = 400; // in meters
-//                                                        strokeWidth = 5; // only important  for visuals
-//                                                        strokeColor = Color.parseColor("#6d6d6d"); //dark gray | red -> ff0000
-//                                                        fillColor = 0x33373737; //  fillColor(Color.argb(20, 50, 0, 255)) //this works for tweaking //gray
-//                                                        //  fillColor = Color.argb(128, 255, 0, 0);
-////                                                        anchor = ; // amount of offset for the icon to be in the middle of the marker
-//                                                    }
-
-//                for (int i = 0; i < sensorDB.getSensorDBSize(); i++) {
-////                    sensorDB.getSensor(i).addMapMarkersToGoogleMap();
-////                }
-//
-//            }
-////            }
         });
     }
 
-    private void boottrapSensorDB() {
+    private void addSensorMarkersToMap() {
+        for (int i = 0; i < sensorDB.getSensorDBSize(); i++) {
+            googleMap.addMarker(
+                    sensorDB.getSensor(i)
+                            .getSensorMarker()
+                            .getMarker()
+            );
+            googleMap.addCircle(
+                    sensorDB.getSensor(i)
+                            .getSensorMarker()
+                            .getCircle()
+            );
+        }
+    }
+
+    private void bootstrapSensorDB() {
+        sensorDB.removeAllSensorsInDB();
         sensorDB.addSensor(new Sensor("http://looko2.com/tracker.php?lan=&search=5CCF7F1A546F", 52.2483, 21.2767)); //Sul1
         sensorDB.addSensor(new Sensor("http://looko2.com/tracker.php?lan=&search=2C3AE833FFD3", 52.2492, 21.2807)); //Reymonta
         sensorDB.addSensor(new Sensor("http://looko2.com/tracker.php?lan=&search=6001944BCDEB", 52.2539, 21.296)); //Pogodna7
@@ -118,19 +104,19 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mapFragment.getMapAsync(this);
     }
 
-    private void displayUpdatedData(final View view) {
-        final Handler handler = new Handler();
+    public void displayUpdatedData(final View view) {
+        viewPlaceholder = view;
+
+        Handler handler = new Handler();
         final Runnable r = new Runnable() {
             public void run() {
                 adapter.notifyDataSetChanged(); //@ToDo need to set a delay here
-
+                addSensorMarkersToMap();
                 Log.i("MainActivity", "sensor data updated");
-
-                Snackbar.make(view, "Info updated", Snackbar.LENGTH_SHORT)
-                        .setAction("Action", null).show();
             }
         };
         handler.postDelayed(r, 1500);
+
     }
 
     private void setupMainView() {
@@ -153,23 +139,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         return mainActivityContext;
     }
 
-    public static GoogleMap getGoogleMapContext() {
-        return googleMap;
-    }
+    @Override
+    public void onMapReady(GoogleMap map) {
+        googleMap = map;
 
-    private void displaySensorLog(int i) {
-        Log.i("MainActivity", "---------------------------------------");
-        Log.i("MainActivity", "sensors id#" + sensorDB.getSensor(i).getSensorId());
-        Log.i("MainActivity", "PM2.5 = " + sensorDB.getSensor(i).getPm25Value());
-        Log.i("MainActivity", sensorDB.getSensor(i).getPm25Percentage() + "% of norm");
-//        Log.i("MainActivity", "was updated yet: " + sensorDB.getSensor(i).isWasUpdated());
-    }
-
-    private void displayAllSensorsLogs() {
-        Log.i("MainActivity", "---------------------------------------");
-        for (int i = 0; i < sensorDB.getSensorDBSize(); i++) {
-            displaySensorLog(i);
-        }
+        //setting map type
+        map.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
     }
 
     @Override
@@ -188,11 +163,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         switch (id) {
 
-            case (R.id.action_clear_all_markers):{
+            case (R.id.action_clear_all_markers): {
                 Log.i("MapService", "clearing map");
                 googleMap.clear();
                 Log.i("MapService", "map cleared");
-                break;}
+                break;
+            }
 
             case (R.id.action_set_color): {
                 Toast.makeText(this, "action_set_color clicked!", Toast.LENGTH_LONG).show();
@@ -209,10 +185,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
 
 
-
         }
-
-
 
 
         return super.onOptionsItemSelected(item);

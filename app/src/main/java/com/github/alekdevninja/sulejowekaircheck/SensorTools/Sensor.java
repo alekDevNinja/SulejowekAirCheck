@@ -1,10 +1,8 @@
 package com.github.alekdevninja.sulejowekaircheck.SensorTools;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.github.alekdevninja.sulejowekaircheck.MainActivity;
 import com.github.alekdevninja.sulejowekaircheck.Map.MapColorTools;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -20,18 +18,15 @@ public class Sensor extends SupportMapFragment implements OnMapReadyCallback {
     private String pm25Percentage; // scraped & formatted % of healthy norm value //@todo reformat this to integer
     private SensorMarker sensorMarker;
     private Scraper scraper;
-    private GoogleMap googleMap;
-    private Context mainActivityContext;
-    private int defFillColor = 0x33373737;
 
     public Sensor(String sensorHttpLink, double locationLatitude, double locationLongitude) {
         setSensorId();
         this.sensorHttpLink = sensorHttpLink;
         sensorCoordinates = new LatLng(locationLatitude, locationLongitude);
-        mainActivityContext = MainActivity.getMainActivityContext();
-        googleMap = MainActivity.getGoogleMapContext();
+//        mainActivityContext = MainActivity.getMainActivityContext();
+//        googleMap = MainActivity.getGoogleMapContext();
 
-        scraper = new Scraper(sensorHttpLink);
+        scraper = new Scraper(getSensorHttpLink());
         scraper.updateSensorData();
 
         //extract pm2.5 and % values
@@ -61,8 +56,8 @@ public class Sensor extends SupportMapFragment implements OnMapReadyCallback {
             //when sensor is online
             mapColorTools = new MapColorTools(Integer.parseInt(getPm25Value()));
             createSensorMarker(mapColorTools.determineColorsBasedOnPmValues());
-        }catch (Exception e){
-            //when sensor is offline
+        } catch (Exception e) {
+            //sensor is offline
             createSensorMarker(0x33373737); //gray
         }
     }
@@ -125,4 +120,7 @@ public class Sensor extends SupportMapFragment implements OnMapReadyCallback {
 //        this.fillColor = fillColor;
     }
 
+    public String getSensorHttpLink() {
+        return sensorHttpLink;
+    }
 }
