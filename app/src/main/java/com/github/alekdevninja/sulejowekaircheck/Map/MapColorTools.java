@@ -17,24 +17,26 @@ public class MapColorTools {
     }
 
     public int determineColorsBasedOnPmValues() {
-        int output = 0x33373737; //gray
+        int outputColor = 0x33373737; //gray
 
-        if (pm25amount < 13) {
-            output = 0x330000ff;
+        if (getPm25amount() < 13) {
+            return 0x400000ff; //blue
         } else if (pm25amount < 35) {
-            output = 0x334eac5a;
+            return 0x334eac5a; //green
         } else if (pm25amount < 55) {
-            output = 0x334eac5a;
+            return 0x50FFFF00; //yellow
         } else if (pm25amount < 75) {
-            output = 0x334eac5a;
+            return 0x80FFA500; //orange
         } else if (pm25amount < 110) {
-            output = 0x334eac5a;
+            return 0x85FF0000; //red
+        } else if (pm25amount > 110) {
+            return 0x99b02318; //burgundy
         }
 
-        return output;
+        return outputColor;
     }
 
-    public int getPm25amount() {
+    private int getPm25amount() {
         return pm25amount;
     }
 

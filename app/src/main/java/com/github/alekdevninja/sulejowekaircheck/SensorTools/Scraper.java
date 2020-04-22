@@ -48,7 +48,7 @@ public class Scraper implements Runnable {
             while ((scannerOutputLine = bufferedReader.readLine()) != null) {
                 if (scannerOutputLine.startsWith("Czujnik nie przesyłał danych")) {
                     pm25Value = "offline ";
-                    pm25Percentage = "offline ";
+                    pm25Percentage = "";
                     scrapedOutput = "offline ";
                 } else {
                     scrapedOutput = valueExtractor(scannerOutputLine);

@@ -165,6 +165,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+
+        //ToDo TEST - do everything as async tasks to reduce animation lag
         switch (id) {
             case (R.id.author): {
 

@@ -37,7 +37,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         Sensor sensor = mData.get(position);
 //        holder.sensorName.setText(sensor.getSensorName());
         holder.sensorName.setText(String.valueOf(sensor.getSensorId())); //@todo fix - broken after DB refactor
-        holder.pm25Value.setText(sensor.getPm25Value());
+
+        //add the unit of measurement to the updated text
+//        String pm25WithUnits = sensor.getPm25Value();
+        String pm25WithUnits = sensor.getPm25Value() + " ug/m3 (PM2.5)";
+        holder.pm25Value.setText(pm25WithUnits);
+
         holder.percentOfNorm.setText(sensor.getPm25Percentage());
     }
 
