@@ -1,5 +1,5 @@
 package com.github.alekdevninja.sulejowekaircheck;
-
+//cleaning & optimizing the code
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
