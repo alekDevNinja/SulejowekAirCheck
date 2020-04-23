@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         //startup the DB for sensors
         sensorDB = new SensorDB();
+        sensorDB.bootstrapSensorDB();
 
         //setup the RecyclerView
         recyclerViewSetup(sensorDB.getSensorDB());
@@ -50,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         buttonRefresh();
 
         //populate the DB with data
-        bootstrapSensorDB();
+//        bootstrapSensorDB();
 
         //update data in the recycler view
         displayUpdatedData(viewPlaceholder);
@@ -68,7 +69,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 sensorDB.removeAllSensorsInDB();
 
                 //add fresh sensors to DB
-                bootstrapSensorDB();
+                sensorDB.bootstrapSensorDB();
+//                bootstrapSensorDB(); //todo - fix this when bootstrap moved to DB
 
                 //add mapMarkers based on sensors & update recycle view
                 displayUpdatedData(view);
