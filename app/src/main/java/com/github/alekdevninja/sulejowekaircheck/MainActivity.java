@@ -1,5 +1,5 @@
 package com.github.alekdevninja.sulejowekaircheck;
-//cleaning & optimizing the code
+//firebase integration and testing
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
