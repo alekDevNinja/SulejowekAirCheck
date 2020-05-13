@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "578850792960",
+    "firebase_url": "https://sulejowekaircheck.firebaseio.com",
+    "project_id": "sulejowekaircheck",
+    "storage_bucket": "sulejowekaircheck.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:578850792960:android:6dc45c8c8057c70cb75ae5",
+        "android_client_info": {
+          "package_name": "com.github.alekdevninja.sulejowekaircheck"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "578850792960-3g7hugpgkb7gj5p5jphc8ih221f670bu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNnaN-hZfqF5AmmIkBejwZTLSN-fVdeqU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "578850792960-3g7hugpgkb7gj5p5jphc8ih221f670bu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
