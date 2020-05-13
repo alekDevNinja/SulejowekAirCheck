@@ -1,13 +1,14 @@
 package com.github.alekdevninja.sulejowekaircheck;
 //new branch
+
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -50,9 +51,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         // setup the refresh bottom // UPDATING UI
         buttonRefresh();
 
-        //populate the DB with data
-//        bootstrapSensorDB();
-
         //update data in the recycler view
         displayUpdatedData(viewPlaceholder);
     }
@@ -70,7 +68,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                 //add fresh sensors to DB
                 sensorDB.bootstrapSensorDB();
-//                bootstrapSensorDB(); //todo - fix this when bootstrap moved to DB
 
                 //add mapMarkers based on sensors & update recycle view
                 displayUpdatedData(view);
@@ -92,15 +89,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                             .getCircle()
             );
         }
-    }
-
-    private void bootstrapSensorDB() {
-        sensorDB.removeAllSensorsInDB();
-        sensorDB.addSensor(new Sensor("http://looko2.com/tracker.php?lan=&search=5CCF7F1A546F", 52.2483, 21.2767)); //Sul1
-        sensorDB.addSensor(new Sensor("http://looko2.com/tracker.php?lan=&search=2C3AE833FFD3", 52.2492, 21.2807)); //Reymonta
-        sensorDB.addSensor(new Sensor("http://looko2.com/tracker.php?lan=&search=6001944BCDEB", 52.2539, 21.296)); //Pogodna7
-        sensorDB.addSensor(new Sensor("http://looko2.com/tracker.php?lan=&search=2C3AE834F051", 52.2450, 21.3032)); //UMS1
-        sensorDB.addSensor(new Sensor("http://looko2.com/tracker.php?lan=&search=807D3A1F6F4F", 52.2521, 21.2456)); //Wola Grzybowska
     }
 
     private void initializeMapFragment() {
@@ -167,17 +155,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-
-        //ToDo TEST - do everything as async tasks to reduce animation lag
         switch (id) {
-            case (R.id.author): {
-
+            case (R.id.about): {
+//                setContentView(R.layout.custom_layout);
                 break;
             }
 
         }
         return super.onOptionsItemSelected(item);
     }
+
 
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
