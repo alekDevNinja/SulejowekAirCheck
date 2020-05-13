@@ -1,14 +1,5 @@
 package com.github.alekdevninja.sulejowekaircheck.map;
 
-    /*
- 0-13        very good // 4eac5a (green) // 0000ff (blue)
- 13,1 - 35   good // a0cd63
- 35,1 - 55   moderate // fffe54
- 55,1 - 75   sufficient // f7c142
- 75,1 - 110  bad // ea3223
- >110        very bad // b02318
-    */
-
 public class MapColorTools {
     private int pm25amount;
 

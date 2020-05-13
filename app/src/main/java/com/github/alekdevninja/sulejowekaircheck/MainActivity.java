@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         Handler handler = new Handler();
         final Runnable r = new Runnable() {
             public void run() {
-                adapter.notifyDataSetChanged(); //@ToDo need to set a delay here
+                adapter.notifyDataSetChanged();
                 addSensorMarkersToMap();
                 Log.i("MainActivity", "sensor data updated");
             }

@@ -35,15 +35,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Sensor sensor = mData.get(position);
-//        holder.sensorName.setText(sensor.getSensorName());
-        holder.sensorName.setText(String.valueOf(sensor.getSensorId())); //@todo fix - broken after DB refactor
+
+        holder.sensorName.setText(String.valueOf(sensor.getSensorId()));
 
         //add the unit of measurement to the updated text
         String pm25WithUnits = sensor.getPm25Value() + " ug/m3 (PM2.5)";
-        //todo seperate textView for units and seperate for value
 
         holder.pm25Value.setText(pm25WithUnits);
-//        holder.pm25Value.setText(sensor.getPm25Value());
+
         holder.percentOfNorm.setText(sensor.getPm25Percentage());
     }
 
@@ -72,10 +71,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return mData.get(id);
     }
 
-//    // allows clicks events to be caught //todo - fix this
-//    public void setClickListener(ItemClickListener itemClickListener) {
-//        this.mClickListener = itemClickListener;
-//    }
 
     // parent activity will implement this method to respond to click events
     public interface ItemClickListener {

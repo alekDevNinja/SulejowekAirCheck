@@ -52,7 +52,6 @@ public class Scraper implements Runnable {
                     scrapedOutput = "offline ";
                 } else {
                     scrapedOutput = valueExtractor(scannerOutputLine);
-//                    wasUpdated = true;
                 }
             }
         } catch (MalformedURLException e) {
