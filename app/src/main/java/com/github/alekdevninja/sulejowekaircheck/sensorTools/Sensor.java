@@ -1,9 +1,9 @@
-package com.github.alekdevninja.sulejowekaircheck.SensorTools;
+package com.github.alekdevninja.sulejowekaircheck.sensorTools;
 
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.github.alekdevninja.sulejowekaircheck.Map.MapColorTools;
+import com.github.alekdevninja.sulejowekaircheck.map.MapColorTools;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -23,8 +23,6 @@ public class Sensor extends SupportMapFragment implements OnMapReadyCallback {
         setSensorId();
         this.sensorHttpLink = sensorHttpLink;
         sensorCoordinates = new LatLng(locationLatitude, locationLongitude);
-//        mainActivityContext = MainActivity.getMainActivityContext();
-//        googleMap = MainActivity.getGoogleMapContext();
 
         scraper = new Scraper(getSensorHttpLink());
         scraper.updateSensorData();

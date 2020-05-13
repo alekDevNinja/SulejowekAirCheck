@@ -5,4 +5,5 @@
     <color name="colorPrimaryDark">#387002</color>
     <color name="colorAccent">#99d066</color>
     <color name="sensor_item_bg">#eceff1</color>
+    <color name="widget_text_color">#ffffff</color>
 </resources>

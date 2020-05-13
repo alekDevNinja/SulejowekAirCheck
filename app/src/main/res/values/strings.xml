@@ -16,4 +16,9 @@
     <string name="sensor_air_progressbar">Sensor Air progressbar</string>
     <string name="sensor_name_place">Sensor name place</string>
     <string name="air_index_scale_source">http://www.sparetheair.com/assets/aqi/PM2017.png</string>
+
+    <string name="appwidget_text">Sulejowek town center</string>
+    <string name="configure">Configure</string>
+    <string name="add_widget">Add widget</string>
+    <string name="sulejowek_air_check">PM25 value:</string>
 </resources>

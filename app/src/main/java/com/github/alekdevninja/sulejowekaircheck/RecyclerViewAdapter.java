@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.github.alekdevninja.sulejowekaircheck.SensorTools.Sensor;
+import com.github.alekdevninja.sulejowekaircheck.sensorTools.Sensor;
 
 import java.util.List;
 

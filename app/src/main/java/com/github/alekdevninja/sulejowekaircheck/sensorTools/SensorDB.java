@@ -1,4 +1,4 @@
-package com.github.alekdevninja.sulejowekaircheck.SensorTools;
+package com.github.alekdevninja.sulejowekaircheck.sensorTools;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package com.github.alekdevninja.sulejowekaircheck.Map;
+package com.github.alekdevninja.sulejowekaircheck.map;
 
     /*
  0-13        very good // 4eac5a (green) // 0000ff (blue)

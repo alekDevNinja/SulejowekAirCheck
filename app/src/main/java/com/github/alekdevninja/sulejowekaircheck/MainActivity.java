@@ -16,8 +16,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.github.alekdevninja.sulejowekaircheck.SensorTools.Sensor;
-import com.github.alekdevninja.sulejowekaircheck.SensorTools.SensorDB;
+import com.github.alekdevninja.sulejowekaircheck.sensorTools.Sensor;
+import com.github.alekdevninja.sulejowekaircheck.sensorTools.SensorDB;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public static GoogleMap googleMap;
     private static Context mainActivityContext;
     private View viewPlaceholder;
-    SensorDB sensorDB;
+    public static SensorDB sensorDB;
 
 
     @Override

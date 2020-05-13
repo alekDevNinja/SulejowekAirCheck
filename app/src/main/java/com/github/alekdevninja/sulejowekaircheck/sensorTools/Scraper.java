@@ -1,4 +1,4 @@
-package com.github.alekdevninja.sulejowekaircheck.SensorTools;
+package com.github.alekdevninja.sulejowekaircheck.sensorTools;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -91,10 +91,8 @@ public class Scraper implements Runnable {
         StringBuilder percentageStringBuilder = new StringBuilder();
         percentageStringBuilder.append(pm25Value);
 
-        //cut&slash to get PM2.5 only //Todo - add the ug/m3 (PM2.5) here and not in the static layout
         pm25StringBuilder.replace(0, 75, "");
         pm25StringBuilder.replace(pm25StringBuilder.indexOf(" "), pm25StringBuilder.length(), "");
-//        pm25StringBuilder.append(" ug/m3 (PM2.5)");
 
         //cut&slash to get the percentage value only
         percentageStringBuilder.replace(0, percentageStringBuilder.indexOf("(") + 1, "");
