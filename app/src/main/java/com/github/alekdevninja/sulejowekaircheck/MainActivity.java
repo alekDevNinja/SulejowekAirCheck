@@ -1,7 +1,8 @@
 package com.github.alekdevninja.sulejowekaircheck;
-//new branch
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private static Context mainActivityContext;
     private View viewPlaceholder;
     SensorDB sensorDB;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,8 +158,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         int id = item.getItemId();
 
         switch (id) {
-            case (R.id.about): {
-//                setContentView(R.layout.custom_layout);
+            case (R.id.about_index): {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.air_index_scale_source)));
+                startActivity(browserIntent);
                 break;
             }
 

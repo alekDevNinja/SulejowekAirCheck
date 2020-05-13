@@ -14,13 +14,15 @@
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"
         android:background="?android:attr/colorPrimary"
-        app:titleTextColor="@color/white"
-        app:popupTheme="@style/AppTheme.NoActionBar"         />
+        app:popupTheme="@style/AppTheme.NoActionBar"
+        android:contentDescription="@string/toolbar_section"
+        app:titleTextColor="@color/white" />
 
     <include layout="@layout/sensor_overview" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvSensors"
+        android:contentDescription="@string/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
