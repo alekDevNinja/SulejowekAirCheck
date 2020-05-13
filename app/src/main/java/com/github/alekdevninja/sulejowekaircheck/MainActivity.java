@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setupMainView();
 
-        // startup the map
+        //startup the map
         initializeMapFragment();
 
         //startup the DB for sensors
