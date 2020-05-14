@@ -18,7 +18,7 @@ public class Scraper implements Runnable {
     private String subPageLink; // link for the designated sensor web page
 
 
-    Scraper(String subPageLink) {
+    public Scraper(String subPageLink) {
         this.subPageLink = subPageLink;
     }
 
@@ -27,13 +27,12 @@ public class Scraper implements Runnable {
             @Override
             public void run() {
                 pm25Value = extractPM2Value();
-//                if (!pm25Value.equals("offline")) wasUpdated = true;
                 Log.i("Scraper", " Sensor was updated " + pm25Value);
             }
         });
     }
 
-    private String extractPM2Value() {
+    public String extractPM2Value() {
         String scrapedOutput = "no output scraped";
         try {
             // Make a URL to the web page
