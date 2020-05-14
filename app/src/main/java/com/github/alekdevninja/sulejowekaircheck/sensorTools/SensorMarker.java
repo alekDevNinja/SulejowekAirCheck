@@ -45,8 +45,7 @@ public class SensorMarker {
 
         marker = new MarkerOptions()
                 .position(sensorCoordinates)
-                .icon(BitmapDescriptorFactory
-                        .fromResource(icon_id))
+                .icon(BitmapDescriptorFactory.fromResource(icon_id))
                 .anchor(anchor, anchor);
     }
 
@@ -71,7 +70,23 @@ public class SensorMarker {
     }
 
     public MarkerOptions getMarker() {
-        return marker;
+        MarkerOptions safeMarkerBuilder;
+        safeMarkerBuilder = marker;
+        try {
+            return safeMarkerBuilder;
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            safeMarkerBuilder = new MarkerOptions()
+                    .position(sensorCoordinates)
+                    .icon(BitmapDescriptorFactory
+                            .fromResource(mainActivityContext.getResources()
+                                    .getIdentifier("com.github.alekdevninja.sulejowekaircheck:drawable/ic_0",
+                                            "Drawable",
+                                            "com.github.alekdevninja.sulejowekaircheck")))
+                    .anchor(anchor, anchor);
+
+            return safeMarkerBuilder;
+        }
     }
 
     public int getStrokeColor() {
