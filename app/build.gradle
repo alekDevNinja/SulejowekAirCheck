@@ -48,4 +48,8 @@ dependencies {
     // https://mvnrepository.com/artifact/com.sdsmdg.tastytoast/tastytoast
     implementation group: 'com.sdsmdg.tastytoast', name: 'tastytoast', version: '0.1.1'
 
+    // Add the Firebase Database
+    implementation 'com.google.firebase:firebase-firestore:21.4.3'
+
 }
+apply plugin: 'com.google.gms.google-services'

@@ -10,8 +10,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,10 +22,23 @@ import com.github.alekdevninja.sulejowekaircheck.sensorTools.SensorDB;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.sdsmdg.tastytoast.TastyToast;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
     RecyclerViewAdapter adapter;
@@ -34,13 +47,22 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private static Context mainActivityContext;
     private View viewPlaceholder;
     public static SensorDB sensorDB;
-
+    FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //setup - main layout view + toolbar + support action bar);
         super.onCreate(savedInstanceState);
+
+        //init the DB
+        FirebaseApp.initializeApp(this);
+
         setupMainView();
+
+        //DB setup
+        // Access a Cloud Firestore instance from your Activity
+        db = FirebaseFirestore.getInstance();
+        firebaseDbRelatedRequirement();
 
         //startup the map
         initializeMapFragment();
@@ -59,6 +81,35 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         displayUpdatedData(viewPlaceholder);
     }
 
+    private void firebaseDbRelatedRequirement() {
+        final String TAG = "Firebase Database";
+        Log.i(TAG, "DB instance obtained");
+
+        // Create a new user with a first and last name
+        Map<String, Object> user = new HashMap<>();
+        user.put("first", "Ada");
+        user.put("last", "Lovelace");
+        user.put("born", 1815);
+        Log.i(TAG, "users added to DB");
+
+        // Add a new document with a generated ID
+        db.collection("users")
+                .add(user)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error adding document", e);
+                    }
+                });
+        Log.i(TAG, "document added to DB");
+    }
+
     private void buttonRefresh() {
         FloatingActionButton floatingActionButton = findViewById(R.id.fab);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
@@ -75,9 +126,32 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                 //add mapMarkers based on sensors & update recycle view
                 displayUpdatedData(view);
+
+                //Firebase DB related project requirement
+                //
+                final String TAG = "Firebase Database";
+                final String[] test = new String[1];
+                db.collection("users")
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
+                                        Log.i(TAG, document.getId() + " => " + document.getData());
+                                        test[0] = db.collection("users").toString();
+                                    }
+                                } else {
+                                    Log.i(TAG, "Error getting documents.", task.getException());
+                                }
+                            }
+                        });
+                Log.i(TAG, Arrays.toString(test));
             }
 
         });
+
+
     }
 
     private void addSensorMarkersToMap() {
