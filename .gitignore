@@ -12,3 +12,7 @@
 /captures
 .externalNativeBuild
 .cxx
+/gradle.properties
+.gitignore
+/app/src/debug
+/app/src/release

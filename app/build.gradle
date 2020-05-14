@@ -44,4 +44,8 @@ dependencies {
 
     // Add the Firebase Crashlytics SDK.
     implementation 'com.google.firebase:firebase-crashlytics:17.0.0'
+
+    // https://mvnrepository.com/artifact/com.sdsmdg.tastytoast/tastytoast
+    implementation group: 'com.sdsmdg.tastytoast', name: 'tastytoast', version: '0.1.1'
+
 }

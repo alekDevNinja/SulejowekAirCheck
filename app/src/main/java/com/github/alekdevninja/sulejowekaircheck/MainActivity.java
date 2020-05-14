@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -22,6 +23,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.sdsmdg.tastytoast.TastyToast;
 
 import java.util.ArrayList;
 
@@ -107,8 +109,18 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         final Runnable r = new Runnable() {
             public void run() {
                 adapter.notifyDataSetChanged();
-                addSensorMarkersToMap();
-                Log.i("MainActivity", "sensor data updated");
+                try {
+                    addSensorMarkersToMap();
+                    Log.i("MainActivity", "sensor data updated");
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                    TastyToast.makeText(
+                            getApplicationContext(),
+                            "Please check internet connection and restart the app ;(",
+                            TastyToast.LENGTH_LONG,
+                            TastyToast.ERROR);
+                }
+
             }
         };
         handler.postDelayed(r, 1500);
